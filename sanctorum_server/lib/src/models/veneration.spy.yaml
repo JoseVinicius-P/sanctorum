@@ -1,0 +1,8 @@
+
+class: Veneration
+table: veneration
+fields:
+  celebrationDate: List<String>?
+  legacy: String?
+
+

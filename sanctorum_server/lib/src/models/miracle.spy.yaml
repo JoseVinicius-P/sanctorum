@@ -1,0 +1,8 @@
+
+class: Miracle
+table: miracle
+fields:
+  year: int?
+  event: String?
+
+

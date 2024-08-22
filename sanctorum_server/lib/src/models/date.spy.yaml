@@ -1,0 +1,9 @@
+
+class: Date
+table: date
+fields:
+  year: int
+  month: int
+  day: int
+
+

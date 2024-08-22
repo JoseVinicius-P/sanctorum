@@ -1,0 +1,9 @@
+
+class: Quotation
+table: quotation
+fields:
+  quote: String?
+  context: String?
+  reference: String?
+
+

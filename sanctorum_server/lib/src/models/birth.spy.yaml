@@ -1,0 +1,11 @@
+
+class: Birth
+table: birth
+fields:
+  period: List<Date>?
+  country: String?
+  city: String?
+  details: String?
+  correspondentActualCountry: String?
+
+

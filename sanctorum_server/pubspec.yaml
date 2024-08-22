@@ -1,0 +1,16 @@
+name: sanctorum_server
+description: Starting point for a Serverpod server.
+# version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  archive: ^3.6.1
+  html: ^0.15.4
+  http: ^1.2.2
+  serverpod: 2.0.2
+
+dev_dependencies:
+  lints: '>=3.0.0 <5.0.0'

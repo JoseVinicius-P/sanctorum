@@ -1,0 +1,9 @@
+
+class: Family
+table: family
+fields:
+  mother: String?
+  father: String?
+  numberOfSiblings: int?
+
+

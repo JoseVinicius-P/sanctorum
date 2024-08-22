@@ -1,0 +1,8 @@
+
+class: ReligiousEvent
+table: religious_event
+fields:
+  year: int?
+  event: String?
+
+

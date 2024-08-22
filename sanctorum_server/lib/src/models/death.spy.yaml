@@ -1,0 +1,13 @@
+
+class: Death
+table: death
+fields:
+  period: List<Date>?
+  country: String?
+  city: String?
+  details: String?
+  correspondentActualCountry: String?
+  isMartir: bool?
+  causeOfdeath: String?
+
+
