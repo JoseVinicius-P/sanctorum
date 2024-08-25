@@ -1,0 +1,75 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "miracle",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "details",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "name",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "year",
+          "event"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"year\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "year"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"event\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "event"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"year\" of table \"miracle\" will be dropped.",
+      "table": "miracle",
+      "columns": [
+        "year"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"event\" of table \"miracle\" will be dropped.",
+      "table": "miracle",
+      "columns": [
+        "event"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

@@ -2,7 +2,7 @@
 class: Miracle
 table: miracle
 fields:
-  year: int?
-  event: String?
+  details: String?
+  name: String?
 
 

@@ -11,6 +11,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chatgpt_endpoint.dart' as _i2;
 import '../endpoints/find_saint_endpoint.dart' as _i3;
+import 'dart:typed_data' as _i4;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -42,7 +43,26 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['chatgpt'] as _i2.ChatgptEndpoint)
                   .generateJsonlFile(session),
-        )
+        ),
+        'uploadJsonlChatGptOutput': _i1.MethodConnector(
+          name: 'uploadJsonlChatGptOutput',
+          params: {
+            'byteData': _i1.ParameterDescription(
+              name: 'byteData',
+              type: _i1.getType<_i4.ByteData>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['chatgpt'] as _i2.ChatgptEndpoint)
+                  .uploadJsonlChatGptOutput(
+            session,
+            params['byteData'],
+          ),
+        ),
       },
     );
     connectors['findSaint'] = _i1.EndpointConnector(

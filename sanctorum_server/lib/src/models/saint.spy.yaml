@@ -24,7 +24,7 @@ fields:
   urlImage: String?
   name: String?
   religiousName: String?
-  gender: Gender?
+  gender: String?
   title: String?
   birth: Birth?, relation(optional)
   death: Death?, relation(optional)

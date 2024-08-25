@@ -13,21 +13,21 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 abstract class Miracle implements _i1.SerializableModel {
   Miracle._({
     this.id,
-    this.year,
-    this.event,
+    this.details,
+    this.name,
   });
 
   factory Miracle({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   }) = _MiracleImpl;
 
   factory Miracle.fromJson(Map<String, dynamic> jsonSerialization) {
     return Miracle(
       id: jsonSerialization['id'] as int?,
-      year: jsonSerialization['year'] as int?,
-      event: jsonSerialization['event'] as String?,
+      details: jsonSerialization['details'] as String?,
+      name: jsonSerialization['name'] as String?,
     );
   }
 
@@ -36,21 +36,21 @@ abstract class Miracle implements _i1.SerializableModel {
   /// the id will be null.
   int? id;
 
-  int? year;
+  String? details;
 
-  String? event;
+  String? name;
 
   Miracle copyWith({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      if (year != null) 'year': year,
-      if (event != null) 'event': event,
+      if (details != null) 'details': details,
+      if (name != null) 'name': name,
     };
   }
 
@@ -65,24 +65,24 @@ class _Undefined {}
 class _MiracleImpl extends Miracle {
   _MiracleImpl({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   }) : super._(
           id: id,
-          year: year,
-          event: event,
+          details: details,
+          name: name,
         );
 
   @override
   Miracle copyWith({
     Object? id = _Undefined,
-    Object? year = _Undefined,
-    Object? event = _Undefined,
+    Object? details = _Undefined,
+    Object? name = _Undefined,
   }) {
     return Miracle(
       id: id is int? ? id : this.id,
-      year: year is int? ? year : this.year,
-      event: event is String? ? event : this.event,
+      details: details is String? ? details : this.details,
+      name: name is String? ? name : this.name,
     );
   }
 }

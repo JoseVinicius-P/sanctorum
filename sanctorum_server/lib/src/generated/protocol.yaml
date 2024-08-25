@@ -1,5 +1,6 @@
 chatgpt:
   - generateJsonlFile:
+  - uploadJsonlChatGptOutput:
 findSaint:
   - findSaintsWikipedia:
   - updateFullTextsFromSavedWikipediaHtmls:

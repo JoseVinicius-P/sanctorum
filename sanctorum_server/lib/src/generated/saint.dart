@@ -47,7 +47,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
     String? urlImage,
     String? name,
     String? religiousName,
-    _i2.Gender? gender,
+    String? gender,
     String? title,
     int? birthId,
     _i2.Birth? birth,
@@ -77,9 +77,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
       urlImage: jsonSerialization['urlImage'] as String?,
       name: jsonSerialization['name'] as String?,
       religiousName: jsonSerialization['religiousName'] as String?,
-      gender: jsonSerialization['gender'] == null
-          ? null
-          : _i2.Gender.fromJson((jsonSerialization['gender'] as int)),
+      gender: jsonSerialization['gender'] as String?,
       title: jsonSerialization['title'] as String?,
       birthId: jsonSerialization['birthId'] as int?,
       birth: jsonSerialization['birth'] == null
@@ -146,7 +144,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   String? religiousName;
 
-  _i2.Gender? gender;
+  String? gender;
 
   String? title;
 
@@ -198,7 +196,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
     String? urlImage,
     String? name,
     String? religiousName,
-    _i2.Gender? gender,
+    String? gender,
     String? title,
     int? birthId,
     _i2.Birth? birth,
@@ -228,7 +226,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
       if (urlImage != null) 'urlImage': urlImage,
       if (name != null) 'name': name,
       if (religiousName != null) 'religiousName': religiousName,
-      if (gender != null) 'gender': gender?.toJson(),
+      if (gender != null) 'gender': gender,
       if (title != null) 'title': title,
       if (birthId != null) 'birthId': birthId,
       if (birth != null) 'birth': birth?.toJson(),
@@ -269,7 +267,7 @@ abstract class Saint extends _i1.TableRow implements _i1.ProtocolSerialization {
       if (urlImage != null) 'urlImage': urlImage,
       if (name != null) 'name': name,
       if (religiousName != null) 'religiousName': religiousName,
-      if (gender != null) 'gender': gender?.toJson(),
+      if (gender != null) 'gender': gender,
       if (title != null) 'title': title,
       if (birthId != null) 'birthId': birthId,
       if (birth != null) 'birth': birth?.toJsonForProtocol(),
@@ -357,7 +355,7 @@ class _SaintImpl extends Saint {
     String? urlImage,
     String? name,
     String? religiousName,
-    _i2.Gender? gender,
+    String? gender,
     String? title,
     int? birthId,
     _i2.Birth? birth,
@@ -443,7 +441,7 @@ class _SaintImpl extends Saint {
       name: name is String? ? name : this.name,
       religiousName:
           religiousName is String? ? religiousName : this.religiousName,
-      gender: gender is _i2.Gender? ? gender : this.gender,
+      gender: gender is String? ? gender : this.gender,
       title: title is String? ? title : this.title,
       birthId: birthId is int? ? birthId : this.birthId,
       birth: birth is _i2.Birth? ? birth : this.birth?.copyWith(),
@@ -499,10 +497,9 @@ class SaintTable extends _i1.Table {
       'religiousName',
       this,
     );
-    gender = _i1.ColumnEnum(
+    gender = _i1.ColumnString(
       'gender',
       this,
-      _i1.EnumSerialization.byIndex,
     );
     title = _i1.ColumnString(
       'title',
@@ -564,7 +561,7 @@ class SaintTable extends _i1.Table {
 
   late final _i1.ColumnString religiousName;
 
-  late final _i1.ColumnEnum<_i2.Gender> gender;
+  late final _i1.ColumnString gender;
 
   late final _i1.ColumnString title;
 

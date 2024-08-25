@@ -1,0 +1,50 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "saint",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "gender",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "gender"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+            "table": "saint",
+            "columns": [
+              "gender"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+      "table": "saint",
+      "columns": [
+        "gender"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

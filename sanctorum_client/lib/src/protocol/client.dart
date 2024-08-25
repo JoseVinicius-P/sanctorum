@@ -26,6 +26,13 @@ class EndpointChatgpt extends _i1.EndpointRef {
         'generateJsonlFile',
         {},
       );
+
+  _i2.Future<String> uploadJsonlChatGptOutput(_i3.ByteData byteData) =>
+      caller.callServerEndpoint<String>(
+        'chatgpt',
+        'uploadJsonlChatGptOutput',
+        {'byteData': byteData},
+      );
 }
 
 /// {@category Endpoint}

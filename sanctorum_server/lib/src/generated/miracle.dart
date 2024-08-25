@@ -14,21 +14,21 @@ abstract class Miracle extends _i1.TableRow
     implements _i1.ProtocolSerialization {
   Miracle._({
     int? id,
-    this.year,
-    this.event,
+    this.details,
+    this.name,
   }) : super(id);
 
   factory Miracle({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   }) = _MiracleImpl;
 
   factory Miracle.fromJson(Map<String, dynamic> jsonSerialization) {
     return Miracle(
       id: jsonSerialization['id'] as int?,
-      year: jsonSerialization['year'] as int?,
-      event: jsonSerialization['event'] as String?,
+      details: jsonSerialization['details'] as String?,
+      name: jsonSerialization['name'] as String?,
     );
   }
 
@@ -36,9 +36,9 @@ abstract class Miracle extends _i1.TableRow
 
   static const db = MiracleRepository._();
 
-  int? year;
+  String? details;
 
-  String? event;
+  String? name;
 
   int? _saintMiraclesSaintId;
 
@@ -47,15 +47,15 @@ abstract class Miracle extends _i1.TableRow
 
   Miracle copyWith({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      if (year != null) 'year': year,
-      if (event != null) 'event': event,
+      if (details != null) 'details': details,
+      if (name != null) 'name': name,
       if (_saintMiraclesSaintId != null)
         '_saintMiraclesSaintId': _saintMiraclesSaintId,
     };
@@ -65,8 +65,8 @@ abstract class Miracle extends _i1.TableRow
   Map<String, dynamic> toJsonForProtocol() {
     return {
       if (id != null) 'id': id,
-      if (year != null) 'year': year,
-      if (event != null) 'event': event,
+      if (details != null) 'details': details,
+      if (name != null) 'name': name,
     };
   }
 
@@ -105,24 +105,24 @@ class _Undefined {}
 class _MiracleImpl extends Miracle {
   _MiracleImpl({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
   }) : super._(
           id: id,
-          year: year,
-          event: event,
+          details: details,
+          name: name,
         );
 
   @override
   Miracle copyWith({
     Object? id = _Undefined,
-    Object? year = _Undefined,
-    Object? event = _Undefined,
+    Object? details = _Undefined,
+    Object? name = _Undefined,
   }) {
     return Miracle(
       id: id is int? ? id : this.id,
-      year: year is int? ? year : this.year,
-      event: event is String? ? event : this.event,
+      details: details is String? ? details : this.details,
+      name: name is String? ? name : this.name,
     );
   }
 }
@@ -130,13 +130,13 @@ class _MiracleImpl extends Miracle {
 class MiracleImplicit extends _MiracleImpl {
   MiracleImplicit._({
     int? id,
-    int? year,
-    String? event,
+    String? details,
+    String? name,
     this.$_saintMiraclesSaintId,
   }) : super(
           id: id,
-          year: year,
-          event: event,
+          details: details,
+          name: name,
         );
 
   factory MiracleImplicit(
@@ -145,8 +145,8 @@ class MiracleImplicit extends _MiracleImpl {
   }) {
     return MiracleImplicit._(
       id: miracle.id,
-      year: miracle.year,
-      event: miracle.event,
+      details: miracle.details,
+      name: miracle.name,
       $_saintMiraclesSaintId: $_saintMiraclesSaintId,
     );
   }
@@ -163,12 +163,12 @@ class MiracleImplicit extends _MiracleImpl {
 
 class MiracleTable extends _i1.Table {
   MiracleTable({super.tableRelation}) : super(tableName: 'miracle') {
-    year = _i1.ColumnInt(
-      'year',
+    details = _i1.ColumnString(
+      'details',
       this,
     );
-    event = _i1.ColumnString(
-      'event',
+    name = _i1.ColumnString(
+      'name',
       this,
     );
     $_saintMiraclesSaintId = _i1.ColumnInt(
@@ -177,17 +177,17 @@ class MiracleTable extends _i1.Table {
     );
   }
 
-  late final _i1.ColumnInt year;
+  late final _i1.ColumnString details;
 
-  late final _i1.ColumnString event;
+  late final _i1.ColumnString name;
 
   late final _i1.ColumnInt $_saintMiraclesSaintId;
 
   @override
   List<_i1.Column> get columns => [
         id,
-        year,
-        event,
+        details,
+        name,
         $_saintMiraclesSaintId,
       ];
 }

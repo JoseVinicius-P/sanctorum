@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +83,23 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _sendGptOutputJsonlFile(ByteData? jsonlBytedata) async {
+    if(jsonlBytedata != null){
+      try {
+        final result = await client.chatgpt.uploadJsonlChatGptOutput(jsonlBytedata);
+        setState(() {
+          _errorMessage = null;
+          _resultMessage = result;
+        });
+
+      } catch (e) {
+        setState(() {
+          _errorMessage = '$e';
+        });
+      }
+    }
+  }
+
   void _updateFullTextFromWikipediaHtml() async {
     try {
       final result = await client.findSaint.updateFullTextsFromSavedWikipediaHtmls().timeout(const Duration(hours: 2));
@@ -113,6 +133,17 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<ByteData?> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false, type: FileType.custom, allowedExtensions: ['jsonl'], dialogTitle: 'Selecionar arquivo para upload');
+
+    if (result != null) {
+      var file = result.xFiles.first;
+      return await file.readAsBytes().then((bytes) => ByteData.sublistView(Uint8List.fromList(bytes)));
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +174,13 @@ class MyHomePageState extends State<MyHomePage> {
                 child: ElevatedButton(
                   onPressed: _generateJsonlFile,
                   child: const Text('Gerar arquivo Jsonl'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () async => _sendGptOutputJsonlFile(await pickFile()),
+                  child: const Text('Enviar arquivo de saída do chatGPT (JsonL)'),
                 ),
               ),
               _ResultDisplay(
