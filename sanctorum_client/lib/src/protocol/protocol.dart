@@ -22,6 +22,7 @@ import 'religious_event.dart' as _i10;
 import 'saint.dart' as _i11;
 import 'veneration.dart' as _i12;
 import 'protocol.dart' as _i13;
+import 'package:sanctorum_client/src/protocol/saint.dart' as _i14;
 export 'birth.dart';
 export 'date.dart';
 export 'death.dart';
@@ -163,6 +164,10 @@ class Protocol extends _i1.SerializationManager {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()
           : null) as dynamic;
+    }
+    if (t == List<_i14.Saint>) {
+      return (data as List).map((e) => deserialize<_i14.Saint>(e)).toList()
+          as dynamic;
     }
     return super.deserialize<T>(data, t);
   }

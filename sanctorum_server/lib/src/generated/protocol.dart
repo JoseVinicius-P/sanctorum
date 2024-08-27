@@ -23,6 +23,7 @@ import 'religious_event.dart' as _i11;
 import 'saint.dart' as _i12;
 import 'veneration.dart' as _i13;
 import 'protocol.dart' as _i14;
+import 'package:sanctorum_server/src/generated/saint.dart' as _i15;
 export 'birth.dart';
 export 'date.dart';
 export 'death.dart';
@@ -244,22 +245,16 @@ class Protocol extends _i1.SerializationManagerServer {
               'nextval(\'ecclesiastical_hierarchy_id_seq\'::regclass)',
         ),
         _i2.ColumnDefinition(
-          name: 'mother',
+          name: 'hiearchyName',
           columnType: _i2.ColumnType.text,
           isNullable: true,
           dartType: 'String?',
         ),
         _i2.ColumnDefinition(
-          name: 'father',
+          name: 'details',
           columnType: _i2.ColumnType.text,
           isNullable: true,
           dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'numberOfSiblings',
-          columnType: _i2.ColumnType.bigint,
-          isNullable: true,
-          dartType: 'int?',
         ),
         _i2.ColumnDefinition(
           name: '_saintEcclesiasticalhierarchySaintId',
@@ -361,13 +356,13 @@ class Protocol extends _i1.SerializationManagerServer {
           columnDefault: 'nextval(\'miracle_id_seq\'::regclass)',
         ),
         _i2.ColumnDefinition(
-          name: 'year',
-          columnType: _i2.ColumnType.bigint,
+          name: 'details',
+          columnType: _i2.ColumnType.text,
           isNullable: true,
-          dartType: 'int?',
+          dartType: 'String?',
         ),
         _i2.ColumnDefinition(
-          name: 'event',
+          name: 'name',
           columnType: _i2.ColumnType.text,
           isNullable: true,
           dartType: 'String?',
@@ -569,9 +564,9 @@ class Protocol extends _i1.SerializationManagerServer {
         ),
         _i2.ColumnDefinition(
           name: 'gender',
-          columnType: _i2.ColumnType.bigint,
+          columnType: _i2.ColumnType.text,
           isNullable: true,
-          dartType: 'protocol:Gender?',
+          dartType: 'String?',
         ),
         _i2.ColumnDefinition(
           name: 'title',
@@ -879,6 +874,10 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()
           : null) as dynamic;
+    }
+    if (t == List<_i15.Saint>) {
+      return (data as List).map((e) => deserialize<_i15.Saint>(e)).toList()
+          as dynamic;
     }
     try {
       return _i2.Protocol().deserialize<T>(data, t);

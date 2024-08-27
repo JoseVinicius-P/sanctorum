@@ -28,7 +28,7 @@ class FindSaintEndpoint extends Endpoint {
             stopwatch.stop();
             print("Gerado em ${stopwatch.elapsedMilliseconds} milisegundos (${namesAndLinks.indexOf(nameAndLink)+1}/${namesAndLinks.length})");
             // Gera um número aleatório entre 2.0 e 5.0 com casas decimais
-            double randomValue = (1 + Random().nextDouble() * 2)*1000;
+            double randomValue = (1 + Random().nextDouble() * 1)*1000;
             if(stopwatch.elapsedMilliseconds < randomValue){
               print("Esperando ${(randomValue - stopwatch.elapsedMilliseconds).round()} milisegundos");
               await Future.delayed(Duration(milliseconds: randomValue.round() - stopwatch.elapsedMilliseconds));

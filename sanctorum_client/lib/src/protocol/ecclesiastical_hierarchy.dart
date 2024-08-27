@@ -13,25 +13,22 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 abstract class EcclesiasticalHierarchy implements _i1.SerializableModel {
   EcclesiasticalHierarchy._({
     this.id,
-    this.mother,
-    this.father,
-    this.numberOfSiblings,
+    this.hiearchyName,
+    this.details,
   });
 
   factory EcclesiasticalHierarchy({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   }) = _EcclesiasticalHierarchyImpl;
 
   factory EcclesiasticalHierarchy.fromJson(
       Map<String, dynamic> jsonSerialization) {
     return EcclesiasticalHierarchy(
       id: jsonSerialization['id'] as int?,
-      mother: jsonSerialization['mother'] as String?,
-      father: jsonSerialization['father'] as String?,
-      numberOfSiblings: jsonSerialization['numberOfSiblings'] as int?,
+      hiearchyName: jsonSerialization['hiearchyName'] as String?,
+      details: jsonSerialization['details'] as String?,
     );
   }
 
@@ -40,25 +37,21 @@ abstract class EcclesiasticalHierarchy implements _i1.SerializableModel {
   /// the id will be null.
   int? id;
 
-  String? mother;
+  String? hiearchyName;
 
-  String? father;
-
-  int? numberOfSiblings;
+  String? details;
 
   EcclesiasticalHierarchy copyWith({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      if (mother != null) 'mother': mother,
-      if (father != null) 'father': father,
-      if (numberOfSiblings != null) 'numberOfSiblings': numberOfSiblings,
+      if (hiearchyName != null) 'hiearchyName': hiearchyName,
+      if (details != null) 'details': details,
     };
   }
 
@@ -73,29 +66,24 @@ class _Undefined {}
 class _EcclesiasticalHierarchyImpl extends EcclesiasticalHierarchy {
   _EcclesiasticalHierarchyImpl({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   }) : super._(
           id: id,
-          mother: mother,
-          father: father,
-          numberOfSiblings: numberOfSiblings,
+          hiearchyName: hiearchyName,
+          details: details,
         );
 
   @override
   EcclesiasticalHierarchy copyWith({
     Object? id = _Undefined,
-    Object? mother = _Undefined,
-    Object? father = _Undefined,
-    Object? numberOfSiblings = _Undefined,
+    Object? hiearchyName = _Undefined,
+    Object? details = _Undefined,
   }) {
     return EcclesiasticalHierarchy(
       id: id is int? ? id : this.id,
-      mother: mother is String? ? mother : this.mother,
-      father: father is String? ? father : this.father,
-      numberOfSiblings:
-          numberOfSiblings is int? ? numberOfSiblings : this.numberOfSiblings,
+      hiearchyName: hiearchyName is String? ? hiearchyName : this.hiearchyName,
+      details: details is String? ? details : this.details,
     );
   }
 }

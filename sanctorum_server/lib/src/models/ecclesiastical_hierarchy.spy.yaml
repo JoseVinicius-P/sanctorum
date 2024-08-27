@@ -2,8 +2,7 @@
 class: EcclesiasticalHierarchy
 table: ecclesiastical_hierarchy
 fields:
-  mother: String?
-  father: String?
-  numberOfSiblings: int?
+  hiearchyName: String?
+  details: String?
 
 

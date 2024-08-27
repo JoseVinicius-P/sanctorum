@@ -14,25 +14,22 @@ abstract class EcclesiasticalHierarchy extends _i1.TableRow
     implements _i1.ProtocolSerialization {
   EcclesiasticalHierarchy._({
     int? id,
-    this.mother,
-    this.father,
-    this.numberOfSiblings,
+    this.hiearchyName,
+    this.details,
   }) : super(id);
 
   factory EcclesiasticalHierarchy({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   }) = _EcclesiasticalHierarchyImpl;
 
   factory EcclesiasticalHierarchy.fromJson(
       Map<String, dynamic> jsonSerialization) {
     return EcclesiasticalHierarchy(
       id: jsonSerialization['id'] as int?,
-      mother: jsonSerialization['mother'] as String?,
-      father: jsonSerialization['father'] as String?,
-      numberOfSiblings: jsonSerialization['numberOfSiblings'] as int?,
+      hiearchyName: jsonSerialization['hiearchyName'] as String?,
+      details: jsonSerialization['details'] as String?,
     );
   }
 
@@ -40,11 +37,9 @@ abstract class EcclesiasticalHierarchy extends _i1.TableRow
 
   static const db = EcclesiasticalHierarchyRepository._();
 
-  String? mother;
+  String? hiearchyName;
 
-  String? father;
-
-  int? numberOfSiblings;
+  String? details;
 
   int? _saintEcclesiasticalhierarchySaintId;
 
@@ -53,17 +48,15 @@ abstract class EcclesiasticalHierarchy extends _i1.TableRow
 
   EcclesiasticalHierarchy copyWith({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      if (mother != null) 'mother': mother,
-      if (father != null) 'father': father,
-      if (numberOfSiblings != null) 'numberOfSiblings': numberOfSiblings,
+      if (hiearchyName != null) 'hiearchyName': hiearchyName,
+      if (details != null) 'details': details,
       if (_saintEcclesiasticalhierarchySaintId != null)
         '_saintEcclesiasticalhierarchySaintId':
             _saintEcclesiasticalhierarchySaintId,
@@ -74,9 +67,8 @@ abstract class EcclesiasticalHierarchy extends _i1.TableRow
   Map<String, dynamic> toJsonForProtocol() {
     return {
       if (id != null) 'id': id,
-      if (mother != null) 'mother': mother,
-      if (father != null) 'father': father,
-      if (numberOfSiblings != null) 'numberOfSiblings': numberOfSiblings,
+      if (hiearchyName != null) 'hiearchyName': hiearchyName,
+      if (details != null) 'details': details,
     };
   }
 
@@ -115,29 +107,24 @@ class _Undefined {}
 class _EcclesiasticalHierarchyImpl extends EcclesiasticalHierarchy {
   _EcclesiasticalHierarchyImpl({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
   }) : super._(
           id: id,
-          mother: mother,
-          father: father,
-          numberOfSiblings: numberOfSiblings,
+          hiearchyName: hiearchyName,
+          details: details,
         );
 
   @override
   EcclesiasticalHierarchy copyWith({
     Object? id = _Undefined,
-    Object? mother = _Undefined,
-    Object? father = _Undefined,
-    Object? numberOfSiblings = _Undefined,
+    Object? hiearchyName = _Undefined,
+    Object? details = _Undefined,
   }) {
     return EcclesiasticalHierarchy(
       id: id is int? ? id : this.id,
-      mother: mother is String? ? mother : this.mother,
-      father: father is String? ? father : this.father,
-      numberOfSiblings:
-          numberOfSiblings is int? ? numberOfSiblings : this.numberOfSiblings,
+      hiearchyName: hiearchyName is String? ? hiearchyName : this.hiearchyName,
+      details: details is String? ? details : this.details,
     );
   }
 }
@@ -145,15 +132,13 @@ class _EcclesiasticalHierarchyImpl extends EcclesiasticalHierarchy {
 class EcclesiasticalHierarchyImplicit extends _EcclesiasticalHierarchyImpl {
   EcclesiasticalHierarchyImplicit._({
     int? id,
-    String? mother,
-    String? father,
-    int? numberOfSiblings,
+    String? hiearchyName,
+    String? details,
     this.$_saintEcclesiasticalhierarchySaintId,
   }) : super(
           id: id,
-          mother: mother,
-          father: father,
-          numberOfSiblings: numberOfSiblings,
+          hiearchyName: hiearchyName,
+          details: details,
         );
 
   factory EcclesiasticalHierarchyImplicit(
@@ -162,9 +147,8 @@ class EcclesiasticalHierarchyImplicit extends _EcclesiasticalHierarchyImpl {
   }) {
     return EcclesiasticalHierarchyImplicit._(
       id: ecclesiasticalHierarchy.id,
-      mother: ecclesiasticalHierarchy.mother,
-      father: ecclesiasticalHierarchy.father,
-      numberOfSiblings: ecclesiasticalHierarchy.numberOfSiblings,
+      hiearchyName: ecclesiasticalHierarchy.hiearchyName,
+      details: ecclesiasticalHierarchy.details,
       $_saintEcclesiasticalhierarchySaintId:
           $_saintEcclesiasticalhierarchySaintId,
     );
@@ -186,16 +170,12 @@ class EcclesiasticalHierarchyImplicit extends _EcclesiasticalHierarchyImpl {
 class EcclesiasticalHierarchyTable extends _i1.Table {
   EcclesiasticalHierarchyTable({super.tableRelation})
       : super(tableName: 'ecclesiastical_hierarchy') {
-    mother = _i1.ColumnString(
-      'mother',
+    hiearchyName = _i1.ColumnString(
+      'hiearchyName',
       this,
     );
-    father = _i1.ColumnString(
-      'father',
-      this,
-    );
-    numberOfSiblings = _i1.ColumnInt(
-      'numberOfSiblings',
+    details = _i1.ColumnString(
+      'details',
       this,
     );
     $_saintEcclesiasticalhierarchySaintId = _i1.ColumnInt(
@@ -204,20 +184,17 @@ class EcclesiasticalHierarchyTable extends _i1.Table {
     );
   }
 
-  late final _i1.ColumnString mother;
+  late final _i1.ColumnString hiearchyName;
 
-  late final _i1.ColumnString father;
-
-  late final _i1.ColumnInt numberOfSiblings;
+  late final _i1.ColumnString details;
 
   late final _i1.ColumnInt $_saintEcclesiasticalhierarchySaintId;
 
   @override
   List<_i1.Column> get columns => [
         id,
-        mother,
-        father,
-        numberOfSiblings,
+        hiearchyName,
+        details,
         $_saintEcclesiasticalhierarchySaintId,
       ];
 }

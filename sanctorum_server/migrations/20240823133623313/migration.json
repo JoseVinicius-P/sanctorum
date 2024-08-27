@@ -1,0 +1,94 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "ecclesiastical_hierarchy",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "hiearchyName",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "details",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "mother",
+          "father",
+          "numberOfSiblings"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "mother"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "father"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "numberOfSiblings"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "mother"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "father"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "numberOfSiblings"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}
