@@ -9,6 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: sanctorum
       POSTGRES_PASSWORD: "K_CAFLFeIigw72BDF7mDn5TwOuVCDZs5"
+      
     volumes:
       - sanctorum_data:/var/lib/postgresql/data
   redis:
