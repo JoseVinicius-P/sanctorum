@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
           var saints = triple.state as List<Saint>;
 
           return GridView.builder(
+            physics: const ClampingScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, // Número de colunas na grade
               crossAxisSpacing: 10.0, // Espaçamento entre as colunas
@@ -61,25 +62,40 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      if(saint.urlImage != null)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: CachedNetworkImage(
-                          imageUrl: "http://localhost:8080${saint.urlImage}",
+
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: CachedNetworkImage(
+                                  imageUrl: "http://localhost:8080${saint.urlImage}",
+                                  placeholder: (context, url){
+                                    return const Center(child: CircularProgressIndicator());
+                                  },
+                                  errorWidget: (context, url, error) => const Center(child: Icon(Icons.image_not_supported_outlined, color: Colors.grey,)),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 10,),
-                      Flexible(
+                      const SizedBox(width: 10,),
+                      Expanded(
+                        flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Nome: ${saint.name ?? 'Desconhecido'}", maxLines: 1, overflow: TextOverflow.ellipsis,),
                             Text("Nome religioso: ${saint.religiousName ?? 'Desconhecido'}", maxLines: 1, overflow: TextOverflow.ellipsis,),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Flexible(
                               child: Text(
-                                "Nome religioso: ${saint.summary ?? '...'}",
-                                style: TextStyle(
+                                saint.summary ?? '...',
+                                style: const TextStyle(
                                   color: Colors.grey,
                                   fontSize: 11
                                 ),
