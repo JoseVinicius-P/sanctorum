@@ -71,7 +71,7 @@ class ChatgptEndpoint extends Endpoint {
               saint = saintfromGptJson(saintJson, saint);
               //Aqui não se deve atualizar a variavel santo, por perdesse os objetos que serão usado a seguir
               await Saint.db.updateRow(session, saint);
-              var isSuccess = await session.db.transaction((transaction) async {
+              await session.db.transaction((transaction) async {
                 if(saint?.birth != null && 
                 (saint?.birth?.city != null || 
                 saint?.birth?.correspondentActualCountry != null || 

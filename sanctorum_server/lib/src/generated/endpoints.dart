@@ -11,7 +11,8 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chatgpt_endpoint.dart' as _i2;
 import '../endpoints/find_saint_endpoint.dart' as _i3;
-import 'dart:typed_data' as _i4;
+import '../endpoints/list_saint_endpoint.dart' as _i4;
+import 'dart:typed_data' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -27,6 +28,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'findSaint',
+          null,
+        ),
+      'listSaint': _i4.ListSaintEndpoint()
+        ..initialize(
+          server,
+          'listSaint',
           null,
         ),
     };
@@ -49,7 +56,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'byteData': _i1.ParameterDescription(
               name: 'byteData',
-              type: _i1.getType<_i4.ByteData>(),
+              type: _i1.getType<_i5.ByteData>(),
               nullable: false,
             )
           },
@@ -89,6 +96,22 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['findSaint'] as _i3.FindSaintEndpoint)
                   .updateFullTextsFromSavedWikipediaHtmls(session),
         ),
+      },
+    );
+    connectors['listSaint'] = _i1.EndpointConnector(
+      name: 'listSaint',
+      endpoint: endpoints['listSaint']!,
+      methodConnectors: {
+        'allSaints': _i1.MethodConnector(
+          name: 'allSaints',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['listSaint'] as _i4.ListSaintEndpoint)
+                  .allSaints(session),
+        )
       },
     );
   }
