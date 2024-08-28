@@ -11,7 +11,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chatgpt_endpoint.dart' as _i2;
 import '../endpoints/find_saint_endpoint.dart' as _i3;
-import '../endpoints/list_saint_endpoint.dart' as _i4;
+import '../endpoints/saint_endpoint.dart' as _i4;
 import 'dart:typed_data' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
@@ -30,10 +30,10 @@ class Endpoints extends _i1.EndpointDispatch {
           'findSaint',
           null,
         ),
-      'listSaint': _i4.ListSaintEndpoint()
+      'saint': _i4.SaintEndpoint()
         ..initialize(
           server,
-          'listSaint',
+          'saint',
           null,
         ),
     };
@@ -98,20 +98,64 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    connectors['listSaint'] = _i1.EndpointConnector(
-      name: 'listSaint',
-      endpoint: endpoints['listSaint']!,
+    connectors['saint'] = _i1.EndpointConnector(
+      name: 'saint',
+      endpoint: endpoints['saint']!,
       methodConnectors: {
         'allSaints': _i1.MethodConnector(
           name: 'allSaints',
-          params: {},
+          params: {
+            'page': _i1.ParameterDescription(
+              name: 'page',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['listSaint'] as _i4.ListSaintEndpoint)
-                  .allSaints(session),
-        )
+              (endpoints['saint'] as _i4.SaintEndpoint).allSaints(
+            session,
+            params['page'],
+          ),
+        ),
+        'search': _i1.MethodConnector(
+          name: 'search',
+          params: {
+            'query': _i1.ParameterDescription(
+              name: 'query',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['saint'] as _i4.SaintEndpoint).search(
+            session,
+            params['query'],
+          ),
+        ),
+        'detailsById': _i1.MethodConnector(
+          name: 'detailsById',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['saint'] as _i4.SaintEndpoint).detailsById(
+            session,
+            params['id'],
+          ),
+        ),
       },
     );
   }

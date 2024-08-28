@@ -4,5 +4,7 @@ chatgpt:
 findSaint:
   - findSaintsWikipedia:
   - updateFullTextsFromSavedWikipediaHtmls:
-listSaint:
+saint:
   - allSaints:
+  - search:
+  - detailsById:

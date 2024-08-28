@@ -58,17 +58,31 @@ class EndpointFindSaint extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
-class EndpointListSaint extends _i1.EndpointRef {
-  EndpointListSaint(_i1.EndpointCaller caller) : super(caller);
+class EndpointSaint extends _i1.EndpointRef {
+  EndpointSaint(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'listSaint';
+  String get name => 'saint';
 
-  _i2.Future<List<_i4.Saint>> allSaints() =>
+  _i2.Future<List<_i4.Saint>> allSaints(int page) =>
       caller.callServerEndpoint<List<_i4.Saint>>(
-        'listSaint',
+        'saint',
         'allSaints',
-        {},
+        {'page': page},
+      );
+
+  _i2.Future<List<_i4.Saint>> search(String query) =>
+      caller.callServerEndpoint<List<_i4.Saint>>(
+        'saint',
+        'search',
+        {'query': query},
+      );
+
+  _i2.Future<_i4.Saint?> detailsById(int id) =>
+      caller.callServerEndpoint<_i4.Saint?>(
+        'saint',
+        'detailsById',
+        {'id': id},
       );
 }
 
@@ -97,20 +111,20 @@ class Client extends _i1.ServerpodClient {
         ) {
     chatgpt = EndpointChatgpt(this);
     findSaint = EndpointFindSaint(this);
-    listSaint = EndpointListSaint(this);
+    saint = EndpointSaint(this);
   }
 
   late final EndpointChatgpt chatgpt;
 
   late final EndpointFindSaint findSaint;
 
-  late final EndpointListSaint listSaint;
+  late final EndpointSaint saint;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'chatgpt': chatgpt,
         'findSaint': findSaint,
-        'listSaint': listSaint,
+        'saint': saint,
       };
 
   @override
