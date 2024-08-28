@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final HomeStore store = Modular.get();
+  void Function(int) lastSearchFunction = (page){};
 
   @override
   void initState() {
@@ -54,9 +55,15 @@ class _HomePageState extends State<HomePage> {
                     SearchBar(
                       hintText: 'Pesquisar Santo...',
                       onSubmitted: (query){
-                        store.searchSaint(query);
+                          store.pagingController.removePageRequestListener(lastSearchFunction);
+                          store.pagingController.removePageRequestListener(store.fetchAllSaints);
+                          lastSearchFunction = (page) => store.searchSaint(query, page);
+                          store.pagingController.addPageRequestListener(lastSearchFunction);
+                          store.update([]);
+                          store.pagingController.refresh();
                       },
                     ),
+                    const SizedBox(height: 20,),
                   ],
                 ),
               ),

@@ -10,10 +10,10 @@ import 'package:serverpod/serverpod.dart';
 
 
 class SaintEndpoint extends Endpoint {
-
+  final int saintsPerPage = 30;
 
   Future<List<Saint>> allSaints(Session session, int page) async {
-    int saintsPerPage = 30;
+    
     return await Saint.db.find(
       session,
       orderBy: (t) => t.id,
@@ -22,21 +22,20 @@ class SaintEndpoint extends Endpoint {
     );
   }
 
-  Future<List<Saint>> search(Session session, String query) async {
+  Future<List<Saint>> search(Session session, String query, int page) async {
 
     List<String> parts = query.trim().split(' ');
     query = '';
     for(var part in parts){
       query += '%$part';
     }
-
     query += '%';
-
-    print(query);
 
     return await Saint.db.find(
       session,
-      where: (t) => t.name.ilike(query) | t.religiousName.ilike(query)
+      where: (t) => t.name.ilike(query) | t.religiousName.ilike(query),
+      limit: saintsPerPage,
+      offset: (page - 1) * saintsPerPage,
     );
   }
 

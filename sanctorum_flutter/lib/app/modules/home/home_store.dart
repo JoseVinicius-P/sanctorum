@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -47,10 +46,9 @@ class HomeStore extends Store<List<Saint>> implements Disposable{
     update(state, force: true);
   }
 
-  void searchSaint(String query) async {
-    update([]);
-    var saints = await client.saint.search(query);
-
-    update(saints);
+  void searchSaint(String query, page) async {
+    var saints = await client.saint.search(query, page);
+    state.addAll(saints);
+    update(state, force: true);
   }
 }

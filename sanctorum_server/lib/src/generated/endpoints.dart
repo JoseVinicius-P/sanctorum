@@ -127,7 +127,12 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'query',
               type: _i1.getType<String>(),
               nullable: false,
-            )
+            ),
+            'page': _i1.ParameterDescription(
+              name: 'page',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -136,6 +141,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['saint'] as _i4.SaintEndpoint).search(
             session,
             params['query'],
+            params['page'],
           ),
         ),
         'detailsById': _i1.MethodConnector(

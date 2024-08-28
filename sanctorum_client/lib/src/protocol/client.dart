@@ -71,11 +71,17 @@ class EndpointSaint extends _i1.EndpointRef {
         {'page': page},
       );
 
-  _i2.Future<List<_i4.Saint>> search(String query) =>
+  _i2.Future<List<_i4.Saint>> search(
+    String query,
+    int page,
+  ) =>
       caller.callServerEndpoint<List<_i4.Saint>>(
         'saint',
         'search',
-        {'query': query},
+        {
+          'query': query,
+          'page': page,
+        },
       );
 
   _i2.Future<_i4.Saint?> detailsById(int id) =>
