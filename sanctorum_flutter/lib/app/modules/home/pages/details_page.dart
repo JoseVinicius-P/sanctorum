@@ -53,6 +53,7 @@ class DetailsPageState extends State<DetailsPage> {
           var saint = triple.state as Saint?;
           if(saint != null){
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   flex: 1,
@@ -101,7 +102,12 @@ class DetailsPageState extends State<DetailsPage> {
                               if(saint.title != null)
                               Text('Título: ${saint.title}', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
                               Text('${saint.summary}', style: MyTextStyles.defaultText,),
-                              const SizedBox(height: 15,),
+                              const SizedBox(height: 10,),
+                              if(saint.gender != null)
+                                Text("Sexo: ${saint.gender == 'M' ? 'Masculino' : 'Feminino'}", style: MyTextStyles.defaultText,),
+                              if(saint.gender != null)
+                                const SizedBox(height: 15,),
+
 
                               if(saint.academicTraining != null && saint.academicTraining!.isNotEmpty)
                               Text('Fomação acadêmica:', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
@@ -112,43 +118,52 @@ class DetailsPageState extends State<DetailsPage> {
                                   for(var form in saint.academicTraining!){
                                     formation += "$form,";
                                   }
-                                  return Text(formation, style: MyTextStyles.defaultText,);
+                                  if(formation.isNotEmpty){
+                                    return Text(formation, style: MyTextStyles.defaultText,);
+                                  }else{
+                                    return const SizedBox.shrink();
+                                  }
+
                                 }
                               ),
+                              if(saint.academicTraining != null && saint.academicTraining!.isNotEmpty)
                               const SizedBox(height: 15,),
 
                               if(saint.beatificationDate != null)
-                              Text('Data da Beatificação', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
+                                Text('Data da Beatificação', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
                               if(saint.beatificationDate != null)
-                              Text(dateToString(saint.beatificationDate!), style: MyTextStyles.defaultText,),
-
+                                Text(dateToString(saint.beatificationDate!), style: MyTextStyles.defaultText,),
                               if(saint.cononizationDate != null)
                                 Text('Data da canônização', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
                               if(saint.cononizationDate != null)
                                 Text(dateToString(saint.cononizationDate!), style: MyTextStyles.defaultText,),
-                              const SizedBox(height: 15,),
+                              if(saint.cononizationDate != null || saint.beatificationDate != null)
+                                const SizedBox(height: 15,),
 
                               if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
-                              Text('Hierarquia eclesial:', style: MyTextStyles.defaultText,),
+                                const Text('Hierarquia eclesial:', style: MyTextStyles.defaultText,),
                               if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
-                              Builder(
-                                builder: (context){
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: saint.ecclesiasticalHierarchy!.map((e){
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("  - ${e.hiearchyName!}", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                                          Text("      ${e.details!}", style: MyTextStyles.defaultText,),
+                                Builder(
+                                  builder: (context){
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: saint.ecclesiasticalHierarchy!.map((e){
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            if(e.hiearchyName != null)
+                                              Text("  - ${e.hiearchyName!}", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
+                                            if(e.details != null)
+                                              Text("      ${e.details!}", style: MyTextStyles.defaultText,),
 
-                                        ],
-                                      );
-                                    }).toList(),
-                                  );
-                                }
-                              ),
-                              const SizedBox(height: 15,),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    );
+                                  }
+                                ),
+                              if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
+                                const SizedBox(height: 15,),
 
                               if(saint.miracles != null && saint.miracles!.isNotEmpty)
                                 const Text('Milagres:', style: MyTextStyles.defaultText,),
@@ -169,6 +184,7 @@ class DetailsPageState extends State<DetailsPage> {
                                       );
                                     }
                                 ),
+                              if(saint.miracles != null && saint.miracles!.isNotEmpty)
                               const SizedBox(height: 15,),
 
                               if(saint.prayers != null && saint.prayers!.isNotEmpty)
@@ -177,18 +193,20 @@ class DetailsPageState extends State<DetailsPage> {
                               Builder(
                                 builder: (context){
                                   return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: saint.prayers!.map((e){
                                       return Text('  - "$e"', style: MyTextStyles.defaultText);
                                     }).toList(),
                                   );
                                 }
                               ),
+                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
                               const SizedBox(height: 15,),
 
 
-                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
+                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
                                 Text("Citações:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
+                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
                                 Builder(
                                     builder: (context){
                                       return Column(
@@ -198,7 +216,37 @@ class DetailsPageState extends State<DetailsPage> {
                                         }).toList(),
                                       );
                                     }
-                                )
+                                ),
+                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
+                              const SizedBox(height: 15,),
+
+                              if(saint.birth != null)
+                                Text("Nascimento:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
+                              if(saint.birth?.period != null && saint.birth!.period!.isNotEmpty)
+                                Text(saint.birth!.period!.length == 1 ? "Data: ${dateToString(saint.birth!.period!.first)}" : "Data: ${dateToString(saint.birth!.period!.first)} a ${dateToString(saint.birth!.period!.last)}", style: MyTextStyles.defaultText),
+                              if(saint.birth?.country != null)
+                                Text("País: ${saint.birth!.country}", style: MyTextStyles.defaultText,),
+                              if(saint.birth?.city != null)
+                                Text("Cidade: ${saint.birth!.city}", style: MyTextStyles.defaultText,),
+                              if(saint.birth?.details != null)
+                                Text("Detalhes: ${saint.birth!.details}", style: MyTextStyles.defaultText,),
+                              if(saint.birth != null)
+                                const SizedBox(height: 15,),
+
+                              if(saint.death != null)
+                                Text("Morte:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
+                              if(saint.death?.period != null && saint.birth!.period!.isNotEmpty)
+                                Text(saint.death!.period!.length == 1 ? "Data: ${dateToString(saint.death!.period!.first)}" : "Data: ${dateToString(saint.death!.period!.first)} a ${dateToString(saint.death!.period!.last)}", style: MyTextStyles.defaultText),
+                              if(saint.death?.country != null)
+                                Text("País: ${saint.death!.country}", style: MyTextStyles.defaultText,),
+                              if(saint.death?.city != null)
+                                Text("Cidade: ${saint.death!.city}", style: MyTextStyles.defaultText,),
+                              if(saint.death?.details != null)
+                                Text("Detalhes: ${saint.death!.details}", style: MyTextStyles.defaultText,),
+                              if(saint.death?.causeOfdeath != null)
+                                Text("Causa da morte: ${saint.death!.causeOfdeath}", style: MyTextStyles.defaultText,),
+                              if(saint.death != null)
+                                const SizedBox(height: 15,),
                             ],
                           ),
                         ),
