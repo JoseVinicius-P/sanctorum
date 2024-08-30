@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:sanctorum_server/src/endpoints/find_saint_classes/repositories/find_data_in_vatican_repository.dart';
 import 'package:sanctorum_server/src/endpoints/find_saint_classes/repositories/find_data_in_wikipedia_repository.dart';
 import 'package:sanctorum_server/src/endpoints/find_saint_classes/repositories/image_repository.dart';
 import 'package:sanctorum_server/src/endpoints/find_saint_classes/services/find_data_service.dart';
@@ -11,6 +12,9 @@ class FindSaintEndpoint extends Endpoint {
   var findWikipediaDataRepository =
       FindDataInWikipediaRepository(FindDataService());
   var imageRepository = ImageRepository(ImageService());
+
+  var findDataInVaticanRepository =
+      FindDataInVaticanRepository(FindDataService());
 
   Future<String> findSaintsWikipedia(Session session) async {
     try {
@@ -121,5 +125,16 @@ class FindSaintEndpoint extends Endpoint {
 
     print(
         "$red ====================================================================  $reset");
+  }
+
+  Future<void> findSaintsVatican(Session session) async {
+    var namesAndLinks = await findDataInVaticanRepository.getLinksOfSaints(
+        'https://www.vatican.va/news_services/liturgy/saints/index_saints_en.html');
+
+    if (namesAndLinks != null && namesAndLinks.isNotEmpty) {
+      for (var nameAndLink in namesAndLinks) {
+        print(nameAndLink);
+      }
+    }
   }
 }

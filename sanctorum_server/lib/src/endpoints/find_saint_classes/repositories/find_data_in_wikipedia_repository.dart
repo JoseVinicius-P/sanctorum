@@ -2,16 +2,16 @@ import 'package:sanctorum_server/src/endpoints/find_saint_classes/services/find_
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
-class FindDataInWikipediaRepository{
+class FindDataInWikipediaRepository {
   final FindDataService findDataService;
 
   FindDataInWikipediaRepository(this.findDataService);
 
   Future<List<Map<String, String>>?> getLinksOfSaints(String url) async {
     var response = await findDataService.dataOfSite(url);
-    if(response.statusCode == 200){
-      return _getLinksInWikpediaHtml(reponseToDocument(response.body));  
-    }else{
+    if (response.statusCode == 200) {
+      return _getLinksInWikpediaHtml(reponseToDocument(response.body));
+    } else {
       return null;
     }
   }
@@ -19,22 +19,23 @@ class FindDataInWikipediaRepository{
   Future<String> getHtml(String url) async {
     var response = await findDataService.dataOfSite(url);
     String compactHtml = response.body
-      .replaceAll(RegExp(r'>\s+<'), '><')  // Remove espaços entre tags
-      .replaceAll(RegExp(r'\s+(?=<)'), '')  // Remove espaços antes de uma tag de fechamento
-      .replaceAll(RegExp(r'(?<=\>)\s+'), '')  // Remove espaços depois de uma tag de abertura
-      .replaceAll(RegExp(r'\s{2,}'), ' ');  // Reduz múltiplos espaços consecutivos a um único
+        .replaceAll(RegExp(r'>\s+<'), '><') // Remove espaços entre tags
+        .replaceAll(RegExp(r'\s+(?=<)'),
+            '') // Remove espaços antes de uma tag de fechamento
+        .replaceAll(RegExp(r'(?<=\>)\s+'),
+            '') // Remove espaços depois de uma tag de abertura
+        .replaceAll(RegExp(r'\s{2,}'),
+            ' '); // Reduz múltiplos espaços consecutivos a um único
     return compactHtml;
   }
 
-   dom.Document reponseToDocument(String stringHtml){
-    try{
+  dom.Document reponseToDocument(String stringHtml) {
+    try {
       var document = parser.parse(stringHtml);
       return document;
-    }catch(e){
-      throw('Erro $e');
+    } catch (e) {
+      throw ('Erro $e');
     }
-    
-    
   }
 
   Future<String?> getFullTextOfSaint(String stringHtml) async {
@@ -48,14 +49,14 @@ class FindDataInWikipediaRepository{
     return _getImageUrlInWikipediaHtml(reponseToDocument(stringHtml));
   }
 
-  String? _getImageUrlInWikipediaHtml(dom.Document document){
+  String? _getImageUrlInWikipediaHtml(dom.Document document) {
     // Selecionar a primeira tag <meta> com o atributo property="og:image"
     var metaTag = document.querySelector('meta[property="og:image"]');
 
     return metaTag?.attributes['content'];
   }
 
-  String? _getTableTextInWikipediaHtml(dom.Document document){
+  String? _getTableTextInWikipediaHtml(dom.Document document) {
     // Selecionar a tabela pela classe "infobox infobox_v2"
     var table = document.querySelector('table.infobox.infobox_v2');
 
@@ -69,7 +70,7 @@ class FindDataInWikipediaRepository{
 
       // Iterar sobre as células e concatenar o texto
       for (var cell in cells) {
-        if(cell != cells.last){
+        if (cell != cells.last) {
           tableText += '${_getFormattedText(cell)}\n';
         }
       }
@@ -80,16 +81,22 @@ class FindDataInWikipediaRepository{
     }
   }
 
-  String? _getFullTextInWikpediaHtml(dom.Document document){
+  String? _getFullTextInWikpediaHtml(dom.Document document) {
     var pElements = document.querySelectorAll('p');
 
     String text = '';
 
-    for(var p in pElements){
+    for (var p in pElements) {
       text += '${_getFormattedText(p)}\n';
     }
 
-    return text.isEmpty || text.contains('A Wikipédia não possui um artigo com este nome exato') || text.contains('O editor será agora carregado. Se continuar a ver esta mensagem após alguns segundos,atualize a página, por favor.') ? null : text.trim();
+    return text.isEmpty ||
+            text.contains(
+                'A Wikipédia não possui um artigo com este nome exato') ||
+            text.contains(
+                'O editor será agora carregado. Se continuar a ver esta mensagem após alguns segundos,atualize a página, por favor.')
+        ? null
+        : text.trim();
   }
 
   String _getFormattedText(dom.Element element) {
@@ -99,7 +106,7 @@ class FindDataInWikipediaRepository{
       if (node is dom.Element) {
         buffer.write(_getFormattedText(node));
       } else if (node is dom.Text) {
-         buffer.write(" ${node.text} ");
+        buffer.write(" ${node.text} ");
       }
     }
 
@@ -118,7 +125,7 @@ class FindDataInWikipediaRepository{
     return text.replaceAll(RegExp(r'(\s)+'), ' ');
   }
 
-  List<Map<String, String>> _getLinksInWikpediaHtml(dom.Document document){
+  List<Map<String, String>> _getLinksInWikpediaHtml(dom.Document document) {
     // Selecionar todas as linhas de tabela
     var rows = document.querySelectorAll('tr');
 
@@ -127,25 +134,21 @@ class FindDataInWikipediaRepository{
     for (var row in rows) {
       // Obter todos os <td> da linha
       var tdElements = row.querySelectorAll('td');
-      
+
       // Verificar se o último <td> contém "Sim"
       if (tdElements.isNotEmpty && tdElements.last.text.trim() == 'Sim') {
         // Encontrar a tag <a> dentro do primeiro <td>
         var aTag = tdElements.first.querySelector('a');
-        
+
         // Verificar se a tag <a> foi encontrada e extrair o link
         if (aTag != null) {
           String? href = aTag.attributes['href'];
           String? name = aTag.text;
 
-          if(href != null && !href.contains('http')){
-            links.add({
-              'name': name,
-              'link': href
-            });
+          if (href != null && !href.contains('http')) {
+            links.add({'name': name, 'link': href});
           }
-        } else {
-        }
+        } else {}
       }
     }
 

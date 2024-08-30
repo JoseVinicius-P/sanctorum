@@ -1,10 +1,29 @@
 import 'package:sanctorum_server/src/endpoints/find_saint_classes/services/find_data_service.dart';
 import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart' as parser;
 
 class FindDataInVaticanRepository {
   final FindDataService findDataService;
 
   FindDataInVaticanRepository(this.findDataService);
+
+  Future<List<Map<String, String>>?> getLinksOfSaints(String url) async {
+    var response = await findDataService.dataOfSite(url);
+    if (response.statusCode == 200) {
+      return _getLinksInVaticanHtml(responseToDocument(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  dom.Document responseToDocument(String stringHtml) {
+    try {
+      var document = parser.parse(stringHtml);
+      return document;
+    } catch (e) {
+      throw ('Erro $e');
+    }
+  }
 
   List<Map<String, String>> _getLinksInVaticanHtml(dom.Document document) {
     // Seleciona todos os elementos <li> que representam santos

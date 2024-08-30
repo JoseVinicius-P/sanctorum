@@ -55,6 +55,12 @@ class EndpointFindSaint extends _i1.EndpointRef {
         'updateFullTextsFromSavedWikipediaHtmls',
         {},
       );
+
+  _i2.Future<void> findSaintsVatican() => caller.callServerEndpoint<void>(
+        'findSaint',
+        'findSaintsVatican',
+        {},
+      );
 }
 
 /// {@category Endpoint}

@@ -96,6 +96,16 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['findSaint'] as _i3.FindSaintEndpoint)
                   .updateFullTextsFromSavedWikipediaHtmls(session),
         ),
+        'findSaintsVatican': _i1.MethodConnector(
+          name: 'findSaintsVatican',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['findSaint'] as _i3.FindSaintEndpoint)
+                  .findSaintsVatican(session),
+        ),
       },
     );
     connectors['listSaint'] = _i1.EndpointConnector(
