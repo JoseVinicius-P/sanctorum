@@ -1,6 +1,6 @@
+import 'package:html/parser.dart' as htmlparser;
 import 'package:sanctorum_server/src/endpoints/find_saint_classes/services/find_data_service.dart';
 import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart' as parser;
 
 class FindDataInVaticanRepository {
   final FindDataService findDataService;
@@ -18,7 +18,7 @@ class FindDataInVaticanRepository {
 
   dom.Document responseToDocument(String stringHtml) {
     try {
-      var document = parser.parse(stringHtml);
+      var document = htmlparser.parse(stringHtml);
       return document;
     } catch (e) {
       throw ('Erro $e');
