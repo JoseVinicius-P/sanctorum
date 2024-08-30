@@ -1,0 +1,313 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "ecclesiastical_hierarchy",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "hiearchyName",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "details",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "mother",
+          "father",
+          "numberOfSiblings"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "mother"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "father"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "numberOfSiblings"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"year\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "year"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"event\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "event"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+            "table": "saint",
+            "columns": [
+              "gender"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "miracle",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "details",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "name",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "year",
+          "event"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "mother"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "father"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "numberOfSiblings"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"year\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "year"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"event\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "event"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+            "table": "saint",
+            "columns": [
+              "gender"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "saint",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "gender",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "gender"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "mother"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "father"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+            "table": "ecclesiastical_hierarchy",
+            "columns": [
+              "numberOfSiblings"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"year\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "year"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column \"event\" of table \"miracle\" will be dropped.",
+            "table": "miracle",
+            "columns": [
+              "event"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "columnDropped",
+            "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+            "table": "saint",
+            "columns": [
+              "gender"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"mother\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "mother"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"father\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "father"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"numberOfSiblings\" of table \"ecclesiastical_hierarchy\" will be dropped.",
+      "table": "ecclesiastical_hierarchy",
+      "columns": [
+        "numberOfSiblings"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"year\" of table \"miracle\" will be dropped.",
+      "table": "miracle",
+      "columns": [
+        "year"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column \"event\" of table \"miracle\" will be dropped.",
+      "table": "miracle",
+      "columns": [
+        "event"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "columnDropped",
+      "message": "Column gender of table saint is modified in a way that it must be deleted and recreated.",
+      "table": "saint",
+      "columns": [
+        "gender"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}
