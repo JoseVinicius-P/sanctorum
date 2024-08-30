@@ -7,38 +7,38 @@ import 'package:sanctorum_server/src/endpoints/find_saint_classes/services/image
 import 'package:sanctorum_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
-
-
 class FindSaintEndpoint extends Endpoint {
-
-
-  var findWikipediaDataRepository = FindDataInWikipediaRepository(FindDataService());
+  var findWikipediaDataRepository =
+      FindDataInWikipediaRepository(FindDataService());
   var imageRepository = ImageRepository(ImageService());
 
   Future<String> findSaintsWikipedia(Session session) async {
-    
     try {
-        var namesAndLinks = await findWikipediaDataRepository.getLinksOfSaints('https://pt.wikipedia.org/wiki/Lista_de_santos');
-        
+      var namesAndLinks = await findWikipediaDataRepository
+          .getLinksOfSaints('https://pt.wikipedia.org/wiki/Lista_de_santos');
 
-        if(namesAndLinks != null && namesAndLinks.isNotEmpty){
-          for(var nameAndLink in namesAndLinks){
-            var stopwatch = Stopwatch()..start(); 
-            await buildSaintWikipedia(nameAndLink, session);
-            stopwatch.stop();
-            print("Gerado em ${stopwatch.elapsedMilliseconds} milisegundos (${namesAndLinks.indexOf(nameAndLink)+1}/${namesAndLinks.length})");
-            // Gera um número aleatório entre 2.0 e 5.0 com casas decimais
-            double randomValue = (1 + Random().nextDouble() * 1)*1000;
-            if(stopwatch.elapsedMilliseconds < randomValue){
-              print("Esperando ${(randomValue - stopwatch.elapsedMilliseconds).round()} milisegundos");
-              await Future.delayed(Duration(milliseconds: randomValue.round() - stopwatch.elapsedMilliseconds));
-            }
+      if (namesAndLinks != null && namesAndLinks.isNotEmpty) {
+        for (var nameAndLink in namesAndLinks) {
+          var stopwatch = Stopwatch()..start();
+          await buildSaintWikipedia(nameAndLink, session);
+          stopwatch.stop();
+          print(
+              "Gerado em ${stopwatch.elapsedMilliseconds} milisegundos (${namesAndLinks.indexOf(nameAndLink) + 1}/${namesAndLinks.length})");
+          // Gera um número aleatório entre 2.0 e 5.0 com casas decimais
+          double randomValue = (1 + Random().nextDouble() * 1) * 1000;
+          if (stopwatch.elapsedMilliseconds < randomValue) {
+            print(
+                "Esperando ${(randomValue - stopwatch.elapsedMilliseconds).round()} milisegundos");
+            await Future.delayed(Duration(
+                milliseconds:
+                    randomValue.round() - stopwatch.elapsedMilliseconds));
           }
-          
-          return 'Finalizado!';
         }
-        
-        return 'Deu erro';
+
+        return 'Finalizado!';
+      }
+
+      return 'Deu erro';
     } catch (e, s) {
       // Em caso de erro, lança uma exceção
       session.log('Erro ao acessar a URL: $e, $s');
@@ -48,10 +48,12 @@ class FindSaintEndpoint extends Endpoint {
 
   Future<String> updateFullTextsFromSavedWikipediaHtmls(Session session) async {
     var saints = await Saint.db.find(session);
-    for(var saint in saints){
-      print("Atualizando texto de ${saint.name} (${saints.indexOf(saint)}/${saints.length})");
-      saint.fullText = await findWikipediaDataRepository.getFullTextOfSaint(saint.sourceHtml!);
-      if(saint.fullText == "${saint.name} pode referir-se a:"){
+    for (var saint in saints) {
+      print(
+          "Atualizando texto de ${saint.name} (${saints.indexOf(saint)}/${saints.length})");
+      saint.fullText = await findWikipediaDataRepository
+          .getFullTextOfSaint(saint.sourceHtml!);
+      if (saint.fullText == "${saint.name} pode referir-se a:") {
         saint.fullText = null;
       }
       saint = await Saint.db.updateRow(session, saint);
@@ -61,18 +63,24 @@ class FindSaintEndpoint extends Endpoint {
     return "Atualizado com sucesso";
   }
 
-  Future<void> buildSaintWikipedia(Map<String, String> namesAndLink, Session session) async {
-    const red = '\x1B[31m';   // Código para cor vermelha
-    const reset = '\x1B[0m';  // Código para resetar a cor
+  Future<void> buildSaintWikipedia(
+      Map<String, String> namesAndLink, Session session) async {
+    const red = '\x1B[31m'; // Código para cor vermelha
+    const reset = '\x1B[0m'; // Código para resetar a cor
 
     var linkAux = "https://pt.wikipedia.org${namesAndLink['link']}";
 
-    print("$red Verificando santo (${namesAndLink['name']}, ${namesAndLink['link']}) ========================= $reset");
-    var saints = await Saint.db.find(session, where: ((s) => s.sourceLink.equals(linkAux) & s.name.equals(namesAndLink['name'])));
+    print(
+        "$red Verificando santo (${namesAndLink['name']}, ${namesAndLink['link']}) ========================= $reset");
+    var saints = await Saint.db.find(session,
+        where: ((s) =>
+            s.sourceLink.equals(linkAux) &
+            s.name.equals(namesAndLink['name'])));
 
-    if(saints.isEmpty){
-      var saintEqualsLink = await Saint.db.find(session, where: ((s) => s.sourceLink.equals(linkAux)));
-      if(saintEqualsLink.isNotEmpty){
+    if (saints.isEmpty) {
+      var saintEqualsLink = await Saint.db
+          .find(session, where: ((s) => s.sourceLink.equals(linkAux)));
+      if (saintEqualsLink.isNotEmpty) {
         print("$red- Algum santo com o mesmo link $reset");
       }
       print("- Gerando Santo.......");
@@ -81,33 +89,37 @@ class FindSaintEndpoint extends Endpoint {
 
       print("- Extraindo texto completo.....");
       var fullText = await findWikipediaDataRepository.getFullTextOfSaint(html);
-      if(fullText == null){
+      if (fullText == null) {
         print('$red- Texto completo não disponível! $reset');
       }
 
       print("- Salvando no banco de dados....");
-      var saint = Saint(sourceHtml: html, sourceLink: linkAux, fullText: fullText, name: namesAndLink['name']);
+      var saint = Saint(
+          sourceHtml: html,
+          sourceLink: linkAux,
+          fullText: fullText,
+          name: namesAndLink['name']);
       saint = await Saint.db.insertRow(session, saint);
 
       print("- Extraindo link da imagem...");
       var urlImage = await findWikipediaDataRepository.getImageLink(html);
 
-      if(urlImage != null && saint.id != null){
+      if (urlImage != null && saint.id != null) {
         print("- Salvando imagem e obtendo url publica..");
-        String? imageUrl = await imageRepository.saveImage(urlImage, saint.id!, session);
+        String? imageUrl =
+            await imageRepository.saveImage(urlImage, saint.id!, session);
         saint.urlImage = imageUrl;
 
         print("- Inserindo url no banco.");
         saint = await Saint.db.updateRow(session, saint);
-
-      }else{
+      } else {
         print("$red- Link de imagem não disponível! $reset");
       }
-
-    }else{
+    } else {
       print("$red- Santo ja existe no banco de dados! $reset");
     }
 
-    print("$red ====================================================================  $reset");
+    print(
+        "$red ====================================================================  $reset");
   }
 }
