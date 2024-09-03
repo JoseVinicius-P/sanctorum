@@ -16,7 +16,7 @@ class HomeModule extends Module {
  @override
  final List<ModularRoute> routes = [
    ChildRoute(Modular.initialRoute, child: (_, args) => const HomePage()),
-   ChildRoute('/details', child: (_, args) => DetailsPage(saintId: args.data)),
+   ChildRoute('/details/:id', child: (_, args) => DetailsPage(saintId: int.parse(args.params['id']))),
    ModuleRoute('/control_panel', module: ControlPanelModule())
  ];
 }

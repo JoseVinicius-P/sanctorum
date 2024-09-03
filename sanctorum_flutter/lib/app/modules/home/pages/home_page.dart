@@ -88,9 +88,7 @@ class SaintItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Modular.to.pushNamed('/details',
-          arguments: saint.id
-        );
+        Modular.to.pushNamed('/details/${saint.id}');
       },
       child: Card(
         color: Colors.white,
