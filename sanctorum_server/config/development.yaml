@@ -39,3 +39,5 @@ redis:
   enabled: false
   host: localhost
   port: 8091
+
+maxRequestSize: 2000000
