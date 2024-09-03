@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
+import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
 
@@ -21,23 +22,6 @@ class DetailsPageState extends State<DetailsPage> {
   void initState() {
     detailsStore.getSaintById(widget.saintId);
     super.initState();
-  }
-
-  String dateToString(Date date){
-    String dateString = '';
-    if(date.day != 0){
-      dateString += date.day.toString().padLeft(2, '0');
-    }
-
-    if(date.month != 0){
-      dateString += "/${date.month.toString().padLeft(2, '0')}";
-    }
-
-    if(date.year != 0){
-      dateString += "/${date.year.toString().padLeft(2, '0')}";
-    }
-
-    return dateString;
   }
 
   @override
@@ -95,158 +79,166 @@ class DetailsPageState extends State<DetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(saint.religiousName != null ? '${saint.religiousName}' : '${saint.name}', style: MyTextStyles.title4),
-                              Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido', style: MyTextStyles.defaultText.copyWith(color: Colors.grey),),
-                              const SizedBox(height: 15,),
-
-                              if(saint.title != null)
-                              Text('Título: ${saint.title}', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              Text('${saint.summary}', style: MyTextStyles.defaultText,),
-                              const SizedBox(height: 10,),
-                              if(saint.gender != null)
-                                Text("Sexo: ${saint.gender == 'M' ? 'Masculino' : 'Feminino'}", style: MyTextStyles.defaultText,),
-                              if(saint.gender != null)
-                                const SizedBox(height: 15,),
-
-
-                              if(saint.academicTraining != null && saint.academicTraining!.isNotEmpty)
-                              Text('Fomação acadêmica:', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.academicTraining != null && saint.academicTraining!.isNotEmpty)
-                              Builder(
-                                builder: (context){
-                                  String formation = '';
-                                  for(var form in saint.academicTraining!){
-                                    formation += "$form,";
-                                  }
-                                  if(formation.isNotEmpty){
-                                    return Text(formation, style: MyTextStyles.defaultText,);
-                                  }else{
-                                    return const SizedBox.shrink();
-                                  }
-
-                                }
+                              EditTooltip(
+                                child: Text(saint.religiousName ?? saint.name!, style: MyTextStyles.title4)
                               ),
-                              if(saint.academicTraining != null && saint.academicTraining!.isNotEmpty)
+                              EditTooltip(child: Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido', style: MyTextStyles.defaultText.copyWith(color: Colors.grey),)),
                               const SizedBox(height: 15,),
 
-                              if(saint.beatificationDate != null)
-                                Text('Data da Beatificação', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.beatificationDate != null)
-                                Text(dateToString(saint.beatificationDate!), style: MyTextStyles.defaultText,),
-                              if(saint.cononizationDate != null)
-                                Text('Data da canônização', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.cononizationDate != null)
-                                Text(dateToString(saint.cononizationDate!), style: MyTextStyles.defaultText,),
-                              if(saint.cononizationDate != null || saint.beatificationDate != null)
-                                const SizedBox(height: 15,),
+                              EditTooltip(child: DoubleTextWidget(title: "Título: ", text: saint.title,)),
 
-                              if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
-                                const Text('Hierarquia eclesial:', style: MyTextStyles.defaultText,),
-                              if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
-                                Builder(
-                                  builder: (context){
+                              EditTooltip(child: DoubleTextWidget(title: "Resumo: ", text: saint.summary, isHorizontal: false, verticalBetweenDistance: 5,)),
+
+                              EditTooltip(child: DoubleTextWidget(title: 'Sexo: ', text: saint.gender == 'M' ? 'Masculino' : 'Feminino')),
+
+                              EditTooltip(child: DoubleTextWidget(title: 'Fomação acadêmica: ', text: saint.academicTrainingToDisplayString,)),
+
+                              EditTooltip(child: DoubleTextWidget(title: "Data da beatificação: ", text: saint.beatificationDateToDisplayString,)),
+
+                              EditTooltip(child: DoubleTextWidget(title: "Data da canônização: ", text: saint.canonizationDateToDisplayString,)),
+
+                              EditTooltip(
+                                child: DisplayListWidget<EcclesiasticalHierarchy>(
+                                  title: 'Designações: ',
+                                  list: saint.ecclesiasticalHierarchy,
+                                  generateItem: (item){
+                                    return DoubleTextWidget(
+                                      title: "${item.hiearchyName ?? ''}: ",
+                                      isTitleBold: false,
+                                      text: item.details,
+                                      nullTextMessage: 'Detalhes não informados',
+                                      distanceBelow: 5,
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: DisplayListWidget<Miracle>(
+                                  title: 'Milagres:',
+                                  list: saint.miracles,
+                                  generateItem: (item){
+                                    return DoubleTextWidget(
+                                      title: "${item.name!}: ",
+                                      isTitleBold: false,
+                                      text: item.details,
+                                      nullTextMessage: 'Detalhes do milagre não informados',
+                                      distanceBelow: 5,
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: DisplayListWidget<String>(
+                                  title: 'Orações:',
+                                  list: saint.prayers,
+                                  generateItem: (item){
+                                    return Text('"$item"', style: MyTextStyles.defaultText);
+                                  },
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: DisplayListWidget<Quotation>(
+                                  title: 'Citações:',
+                                  list: saint.quotations,
+                                  generateItem: (item){
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: saint.ecclesiasticalHierarchy!.map((e){
-                                        return Column(
+                                      children: [
+                                        DoubleTextWidget(title: '', isTitleBold: false, text: '"${item.quote}"', horizontalBetweenDistance: 0,),
+                                        DoubleTextWidget(title: 'Referência: ', isTitleBold: false, text: item.reference, distanceBelow: 0),
+                                        DoubleTextWidget(title: 'Contexto: ', isTitleBold: false, text: item.context, distanceBelow: 20,)
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DoubleTextWidget(title: "Nascimento", text: saint.birth != null ? '' : null, distanceBelow: 5,),
+                                    if(saint.birth != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          DoubleTextWidget(
+                                            title: 'Data: ',
+                                            isTitleBold: false,
+                                            text: saint.birth!.period!.length == 1 ?
+                                            saint.dateToString(saint.birth!.period!.first) :
+                                            "${saint.dateToString(saint.birth!.period!.first)} a ${saint.dateToString(saint.birth!.period!.last)}",
+                                            distanceBelow: 0,
+                                          ),
+                                          DoubleTextWidget(title: "País: ", isTitleBold: false, text: saint.birth?.country, distanceBelow: 0,),
+                                          if(saint.birth?.country != saint.birth?.correspondentActualCountry || saint.birth?.country == null)
+                                            DoubleTextWidget(title: "Nome do país atualmente: ", isTitleBold: false, text: saint.birth?.correspondentActualCountry, distanceBelow: 0,),
+                                          DoubleTextWidget(title: "Cidade: ", isTitleBold: false, text: saint.birth?.city, distanceBelow: 0,),
+                                          DoubleTextWidget(title: "Detalhes: ", isTitleBold: false, text: saint.birth?.details),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DoubleTextWidget(title: "Morte", text: saint.death != null ? '' : null, distanceBelow: 5,),
+                                    if(saint.death != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          DoubleTextWidget(
+                                            title: 'Data: ',
+                                            isTitleBold: false,
+                                            text: saint.death!.period!.length == 1 ?
+                                            saint.dateToString(saint.death!.period!.first) :
+                                            "${saint.dateToString(saint.death!.period!.first)} a ${saint.dateToString(saint.death!.period!.last)}",
+                                            distanceBelow: 0,
+                                          ),
+                                          DoubleTextWidget(title: "País: ", isTitleBold: false, text: saint.death?.country, distanceBelow: 0,),
+                                          if(saint.death?.country != saint.death?.correspondentActualCountry || saint.death?.country == null)
+                                            DoubleTextWidget(title: "Nome do país atualmente: ", isTitleBold: false, text: saint.death?.correspondentActualCountry, distanceBelow: 0,),
+                                          DoubleTextWidget(title: "Cidade: ", isTitleBold: false, text: saint.death?.city, distanceBelow: 0,),
+                                          DoubleTextWidget(title: "Causa da morte: ", isTitleBold: false, text: saint.death?.causeOfdeath, distanceBelow: 0,),
+                                          DoubleTextWidget(title: "Mártir? ", isTitleBold: false, text: saint.death?.isMartir == null ? null : saint.death!.isMartir! ? 'Sim' : "Não",),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              EditTooltip(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DoubleTextWidget(title: "Família", text: saint.birth != null ? '' : null, distanceBelow: 5,),
+                                    if(saint.family != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            if(e.hiearchyName != null)
-                                              Text("  - ${e.hiearchyName!}", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                                            if(e.details != null)
-                                              Text("      ${e.details!}", style: MyTextStyles.defaultText,),
-
+                                            DoubleTextWidget(title: "Pai: ", isTitleBold: false, text: saint.family?.father, distanceBelow: 0,),
+                                            DoubleTextWidget(title: "Mãe: ", isTitleBold: false, text: saint.family?.mother, distanceBelow: 0,),
+                                            DoubleTextWidget(title: "Irmãos: ", isTitleBold: false, text: saint.family?.numberOfSiblings.toString()),
                                           ],
-                                        );
-                                      }).toList(),
-                                    );
-                                  }
+                                        ),
+                                      )
+                                  ],
                                 ),
-                              if(saint.ecclesiasticalHierarchy != null && saint.ecclesiasticalHierarchy!.isNotEmpty)
-                                const SizedBox(height: 15,),
-
-                              if(saint.miracles != null && saint.miracles!.isNotEmpty)
-                                const Text('Milagres:', style: MyTextStyles.defaultText,),
-                              if(saint.miracles != null && saint.miracles!.isNotEmpty)
-                                Builder(
-                                    builder: (context){
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: saint.miracles!.map((e){
-                                          return Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text("  - ${e.name!}", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                                              Text("      ${e.details!}", style: MyTextStyles.defaultText,)
-                                            ],
-                                          );
-                                        }).toList(),
-                                      );
-                                    }
-                                ),
-                              if(saint.miracles != null && saint.miracles!.isNotEmpty)
-                              const SizedBox(height: 15,),
-
-                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
-                              Text("Orações:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
-                              Builder(
-                                builder: (context){
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: saint.prayers!.map((e){
-                                      return Text('  - "$e"', style: MyTextStyles.defaultText);
-                                    }).toList(),
-                                  );
-                                }
                               ),
-                              if(saint.prayers != null && saint.prayers!.isNotEmpty)
-                              const SizedBox(height: 15,),
-
-
-                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
-                                Text("Citações:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
-                                Builder(
-                                    builder: (context){
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: saint.quotations!.map((e){
-                                          return Text('  - "${e.quote}"', style: MyTextStyles.defaultText);
-                                        }).toList(),
-                                      );
-                                    }
-                                ),
-                              if(saint.quotations != null && saint.quotations!.isNotEmpty)
-                              const SizedBox(height: 15,),
-
-                              if(saint.birth != null)
-                                Text("Nascimento:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.birth?.period != null && saint.birth!.period!.isNotEmpty)
-                                Text(saint.birth!.period!.length == 1 ? "Data: ${dateToString(saint.birth!.period!.first)}" : "Data: ${dateToString(saint.birth!.period!.first)} a ${dateToString(saint.birth!.period!.last)}", style: MyTextStyles.defaultText),
-                              if(saint.birth?.country != null)
-                                Text("País: ${saint.birth!.country}", style: MyTextStyles.defaultText,),
-                              if(saint.birth?.city != null)
-                                Text("Cidade: ${saint.birth!.city}", style: MyTextStyles.defaultText,),
-                              if(saint.birth?.details != null)
-                                Text("Detalhes: ${saint.birth!.details}", style: MyTextStyles.defaultText,),
-                              if(saint.birth != null)
-                                const SizedBox(height: 15,),
-
-                              if(saint.death != null)
-                                Text("Morte:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.death?.period != null  && saint.death!.period!.isNotEmpty)
-                                Text(saint.death!.period!.length == 1 ? "Data: ${dateToString(saint.death!.period!.first)}" : "Data: ${dateToString(saint.death!.period!.first)} a ${dateToString(saint.death!.period!.last)}", style: MyTextStyles.defaultText),
-                              if(saint.death?.country != null)
-                                Text("País: ${saint.death!.country}", style: MyTextStyles.defaultText,),
-                              if(saint.death?.city != null)
-                                Text("Cidade: ${saint.death!.city}", style: MyTextStyles.defaultText,),
-                              if(saint.death?.details != null)
-                                Text("Detalhes: ${saint.death!.details}", style: MyTextStyles.defaultText,),
-                              if(saint.death?.causeOfdeath != null)
-                                Text("Causa da morte: ${saint.death!.causeOfdeath}", style: MyTextStyles.defaultText,),
-                              if(saint.death != null)
-                                const SizedBox(height: 15,),
                             ],
                           ),
                         ),
@@ -264,5 +256,158 @@ class DetailsPageState extends State<DetailsPage> {
         }
       ),
     );
+  }
+}
+
+class EditTooltip extends StatefulWidget {
+  const EditTooltip({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  State<EditTooltip> createState() => _EditTooltipState();
+}
+
+class _EditTooltipState extends State<EditTooltip> {
+  bool isInside = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (e) => setState(() {
+        isInside = true;
+      }),
+      onExit: (e) => setState(() {
+        isInside = false;
+      }),
+      child: Stack(
+        children: [
+          widget.child,
+          if(isInside)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                padding: const EdgeInsets.all(5),
+                child: const Icon(Icons.edit, size: 13,)
+              )
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class DisplayListWidget<T> extends StatelessWidget {
+  const DisplayListWidget({
+    super.key, this.title, this.list,
+    double? distanceBelow, required this.generateItem,
+  }) :  distanceBelow = distanceBelow ?? 15;
+
+  final String? title;
+  final List<T>? list;
+  final Widget Function(T) generateItem;
+  final double distanceBelow;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if(title != null)
+          DoubleTextWidget(title: title!, text: list != null && list!.isNotEmpty ? '' : null, distanceBelow: 5,),
+        if(list != null && list!.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Builder(
+                builder: (context){
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: list!.map((e){
+                      return generateItem(e);
+                    }).toList(),
+                  );
+                }
+            ),
+          ),
+        const SizedBox(height: 15,),
+      ],
+    );
+  }
+}
+
+class DoubleTextWidget extends StatelessWidget {
+  const DoubleTextWidget({
+    super.key,
+    this.text, required this.title,
+    bool? isHorizontal,
+    double? horizontalBetweenDistance,
+    double? verticalBetweenDistance,
+    double? distanceBelow,
+    bool? isTitleBold,
+    String? nullTextMessage
+  }) : isHorizontal = isHorizontal ?? true,
+        horizontalBetweenDistance = horizontalBetweenDistance ?? 5,
+        verticalBetweenDistance = verticalBetweenDistance ?? 10,
+        distanceBelow = distanceBelow ?? 15,
+        isTitleBold = isTitleBold ?? true,
+        nullTextMessage = nullTextMessage ?? 'Não informado';
+
+  final String? text;
+  final String nullTextMessage;
+  final bool isTitleBold;
+  final String title;
+  final bool isHorizontal;
+  final double? horizontalBetweenDistance;
+  final double? verticalBetweenDistance;
+  final double distanceBelow;
+
+  @override
+  Widget build(BuildContext context) {
+    if(isHorizontal){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RichText(
+            textAlign: TextAlign.justify,
+            text: TextSpan(
+            children: [
+              TextSpan(
+                text: title,
+                style: MyTextStyles.defaultText.copyWith(fontWeight: isTitleBold ? FontWeight.bold : FontWeight.normal),
+              ),
+              TextSpan(
+                text: text ?? 'Não informado',
+                style: MyTextStyles.defaultText.copyWith(color: text != null ? Colors.black : Colors.grey, fontStyle: text != null ? FontStyle.normal : FontStyle.italic),
+              ),
+            ]
+          )),
+          SizedBox(height: distanceBelow,),
+        ],
+      );
+    }else{
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$title ', style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: verticalBetweenDistance,),
+          Text(
+            text ?? nullTextMessage,
+            style: MyTextStyles.defaultText.copyWith(color: text != null ? Colors.black : Colors.grey),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: distanceBelow,),
+        ],
+      );
+    }
   }
 }
