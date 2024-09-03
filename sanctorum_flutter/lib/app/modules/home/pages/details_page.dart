@@ -235,7 +235,7 @@ class DetailsPageState extends State<DetailsPage> {
 
                               if(saint.death != null)
                                 Text("Morte:", style: MyTextStyles.defaultText.copyWith(fontWeight: FontWeight.bold),),
-                              if(saint.death?.period != null && saint.birth!.period!.isNotEmpty)
+                              if(saint.death?.period != null  && saint.death!.period!.isNotEmpty)
                                 Text(saint.death!.period!.length == 1 ? "Data: ${dateToString(saint.death!.period!.first)}" : "Data: ${dateToString(saint.death!.period!.first)} a ${dateToString(saint.death!.period!.last)}", style: MyTextStyles.defaultText),
                               if(saint.death?.country != null)
                                 Text("País: ${saint.death!.country}", style: MyTextStyles.defaultText,),
