@@ -115,7 +115,7 @@ class DetailsPageState extends State<DetailsPage> {
 
                               EditTooltip(
                                 child: DisplayListWidget<Miracle>(
-                                  title: 'Milagres:',
+                                  title: 'Milagres: ',
                                   list: saint.miracles,
                                   generateItem: (item){
                                     return DoubleTextWidget(
@@ -131,7 +131,7 @@ class DetailsPageState extends State<DetailsPage> {
 
                               EditTooltip(
                                 child: DisplayListWidget<String>(
-                                  title: 'Orações:',
+                                  title: 'Orações: ',
                                   list: saint.prayers,
                                   generateItem: (item){
                                     return Text('"$item"', style: MyTextStyles.defaultText);
@@ -141,7 +141,7 @@ class DetailsPageState extends State<DetailsPage> {
 
                               EditTooltip(
                                 child: DisplayListWidget<Quotation>(
-                                  title: 'Citações:',
+                                  title: 'Citações: ',
                                   list: saint.quotations,
                                   generateItem: (item){
                                     return Column(
@@ -170,9 +170,7 @@ class DetailsPageState extends State<DetailsPage> {
                                           DoubleTextWidget(
                                             title: 'Data: ',
                                             isTitleBold: false,
-                                            text: saint.birth!.period!.length == 1 ?
-                                            saint.dateToString(saint.birth!.period!.first) :
-                                            "${saint.dateToString(saint.birth!.period!.first)} a ${saint.dateToString(saint.birth!.period!.last)}",
+                                            text: saint.periodToDisplayString(saint.birth?.period),
                                             distanceBelow: 0,
                                           ),
                                           DoubleTextWidget(title: "País: ", isTitleBold: false, text: saint.birth?.country, distanceBelow: 0,),
@@ -201,9 +199,7 @@ class DetailsPageState extends State<DetailsPage> {
                                           DoubleTextWidget(
                                             title: 'Data: ',
                                             isTitleBold: false,
-                                            text: saint.death!.period!.length == 1 ?
-                                            saint.dateToString(saint.death!.period!.first) :
-                                            "${saint.dateToString(saint.death!.period!.first)} a ${saint.dateToString(saint.death!.period!.last)}",
+                                            text: saint.periodToDisplayString(saint.death?.period),
                                             distanceBelow: 0,
                                           ),
                                           DoubleTextWidget(title: "País: ", isTitleBold: false, text: saint.death?.country, distanceBelow: 0,),
@@ -232,7 +228,7 @@ class DetailsPageState extends State<DetailsPage> {
                                           children: [
                                             DoubleTextWidget(title: "Pai: ", isTitleBold: false, text: saint.family?.father, distanceBelow: 0,),
                                             DoubleTextWidget(title: "Mãe: ", isTitleBold: false, text: saint.family?.mother, distanceBelow: 0,),
-                                            DoubleTextWidget(title: "Irmãos: ", isTitleBold: false, text: saint.family?.numberOfSiblings.toString()),
+                                            DoubleTextWidget(title: "Irmãos: ", isTitleBold: false, text: (saint.family?.numberOfSiblings ?? 0).toString()),
                                           ],
                                         ),
                                       )
@@ -277,6 +273,7 @@ class _EditTooltipState extends State<EditTooltip> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (e) => setState(() {
         isInside = true;
       }),

@@ -30,7 +30,27 @@ extension ParseDisplayString on Saint{
     }
   }
 
-  String dateToString(Date date){
+  String? periodToDisplayString(List<Date>? period){
+    if(period != null){
+      if(period.length == 1){
+        return dateToString(period.first);
+      }else if(period.length >= 2){
+        period.removeWhere((e) => e.year == 0 && e.month == 0 && e.day == 0);
+        if(period.length >= 2){
+          return "${dateToString(period.first)} a ${dateToString(period.last)}";
+        }else{
+          return periodToDisplayString(period);
+        }
+      }else{
+        return null;
+      }
+    }else{
+      return null;
+    }
+
+  }
+
+  String? dateToString(Date date){
     String dateString = '';
     if(date.day != 0){
       dateString += date.day.toString().padLeft(2, '0');
@@ -57,6 +77,6 @@ extension ParseDisplayString on Saint{
       dateString = dateString.substring(0, dateString.length-1);
     }
 
-    return dateString;
+    return dateString.isNotEmpty ? dateString : null;
   }
 }
