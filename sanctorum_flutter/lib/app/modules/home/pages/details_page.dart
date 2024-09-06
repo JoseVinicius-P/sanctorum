@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/default_alert_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
@@ -79,25 +82,62 @@ class DetailsPageState extends State<DetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              EditTooltip(
+                              EditWidget(
+                                titleDialog: saint.religiousName != null ? 'Editar nome religioso' : 'Editar nome de nascimento',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
                                 child: Text(saint.religiousName ?? saint.name!, style: MyTextStyles.title4)
                               ),
-                              EditTooltip(child: Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido', style: MyTextStyles.defaultText.copyWith(color: Colors.grey),)),
+                              EditWidget(
+                                titleDialog: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
+                                child: Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido',
+                                  style: MyTextStyles.defaultText.copyWith(color: Colors.grey
+                                  ),
+                                )
+                              ),
                               const SizedBox(height: 15,),
 
-                              EditTooltip(child: DoubleTextWidget(title: "Título: ", text: saint.title,)),
+                              EditWidget(
+                                titleDialog: 'Editar título',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
+                                child: DoubleTextWidget(title: "Título: ", text: saint.title,)
+                              ),
 
-                              EditTooltip(child: DoubleTextWidget(title: "Resumo: ", text: saint.summary, isHorizontal: false, verticalBetweenDistance: 5,)),
+                              EditWidget(
+                                titleDialog: 'Editar Resumo',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
+                                child: DoubleTextWidget(title: "Resumo: ", text: saint.summary, isHorizontal: false, verticalBetweenDistance: 5,)
+                              ),
 
-                              EditTooltip(child: DoubleTextWidget(title: 'Sexo: ', text: saint.gender == 'M' ? 'Masculino' : 'Feminino')),
+                              EditWidget(
+                                titleDialog: 'Editar sexo',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
+                                child: DoubleTextWidget(title: 'Sexo: ', text: saint.gender == 'M' ? 'Masculino' : 'Feminino')
+                              ),
 
-                              EditTooltip(child: DoubleTextWidget(title: 'Fomação acadêmica: ', text: saint.academicTrainingToDisplayString,)),
+                              EditWidget(
+                                titleDialog: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
+                                onPressSaveDialog: (){
+                                  return true;
+                                },
+                                child: DoubleTextWidget(title: 'Fomação acadêmica: ', text: saint.academicTrainingToDisplayString,)
+                              ),
 
-                              EditTooltip(child: DoubleTextWidget(title: "Data da beatificação: ", text: saint.beatificationDateToDisplayString,)),
+                              EditWidget(child: DoubleTextWidget(title: "Data da beatificação: ", text: saint.beatificationDateToDisplayString,)),
 
-                              EditTooltip(child: DoubleTextWidget(title: "Data da canônização: ", text: saint.canonizationDateToDisplayString,)),
+                              EditWidget(child: DoubleTextWidget(title: "Data da canônização: ", text: saint.canonizationDateToDisplayString,)),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: DisplayListWidget<EcclesiasticalHierarchy>(
                                   title: 'Designações: ',
                                   list: saint.ecclesiasticalHierarchy,
@@ -113,7 +153,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: DisplayListWidget<Miracle>(
                                   title: 'Milagres: ',
                                   list: saint.miracles,
@@ -129,7 +169,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: DisplayListWidget<String>(
                                   title: 'Orações: ',
                                   list: saint.prayers,
@@ -139,7 +179,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: DisplayListWidget<Quotation>(
                                   title: 'Citações: ',
                                   list: saint.quotations,
@@ -156,7 +196,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -185,7 +225,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -215,7 +255,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
 
-                              EditTooltip(
+                              EditWidget(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -255,20 +295,33 @@ class DetailsPageState extends State<DetailsPage> {
   }
 }
 
-class EditTooltip extends StatefulWidget {
-  const EditTooltip({
+class EditWidget extends StatefulWidget {
+  const EditWidget({
     super.key,
-    required this.child,
+    required this.child, this.titleDialog, this.contentDialog, this.onPressSaveDialog,
   });
 
   final Widget child;
+  final String? titleDialog;
+  final Widget? contentDialog;
+  final FutureOr<bool> Function()? onPressSaveDialog;
 
   @override
-  State<EditTooltip> createState() => _EditTooltipState();
+  State<EditWidget> createState() => _EditWidgetState();
 }
 
-class _EditTooltipState extends State<EditTooltip> {
+class _EditWidgetState extends State<EditWidget> {
   bool isInside = false;
+
+  void showDialogWidget(){
+    showDialog(context: context, builder: (context){
+      return DefaultAlertDialogWidget(
+        title: widget.titleDialog ?? '',
+        content: widget.contentDialog!,
+        onPressedSave: widget.onPressSaveDialog,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -280,22 +333,29 @@ class _EditTooltipState extends State<EditTooltip> {
       onExit: (e) => setState(() {
         isInside = false;
       }),
-      child: Stack(
-        children: [
-          widget.child,
-          if(isInside)
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                padding: const EdgeInsets.all(5),
-                child: const Icon(Icons.edit, size: 13,)
+      child: GestureDetector(
+        onTap: (){
+          if(widget.contentDialog != null){
+            showDialogWidget();
+          }
+        },
+        child: Stack(
+          children: [
+            widget.child,
+            if(isInside)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  padding: const EdgeInsets.all(5),
+                  child: const Icon(Icons.edit, size: 13,)
+                )
               )
-            )
-        ],
+          ],
+        ),
       ),
     );
   }
