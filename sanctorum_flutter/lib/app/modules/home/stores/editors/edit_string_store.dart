@@ -4,7 +4,7 @@ class EditStringStore extends Store<String?> {
 
   EditStringStore() : super(null);
 
-  void updateName(String newString) async {
+  void updateString(String? newString) async {
     update(newString);
   }
 

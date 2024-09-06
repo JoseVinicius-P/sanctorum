@@ -4,7 +4,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
-import 'package:sanctorum_flutter/app/modules/home/widgets/edit_name_dialog_widget.dart';
+import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_sex_store.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_string_dialog_widget.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_sex_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
@@ -129,6 +131,12 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditSexDialogWidget(
+                                  oldSex: Sex.values.singleWhere((e) => e.name == saint.gender, orElse: () => Sex.M),
+                                  onPressSave: (){
+                                    return true;
+                                  }
+                                ),
                                 child: DoubleTextWidget(title: 'Sexo: ', text: saint.gender == 'M' ? 'Masculino' : 'Feminino')
                               ),
 
