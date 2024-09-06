@@ -11,7 +11,7 @@ class HomeModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.factory((i) => DetailsStore()),
-    Bind.factory((i) => EditNameStore()),
+    Bind.factory((i) => EditStringStore()),
     Bind.lazySingleton((i) => HomeStore()),
  ];
 

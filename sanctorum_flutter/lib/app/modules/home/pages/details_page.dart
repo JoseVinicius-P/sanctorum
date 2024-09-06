@@ -81,21 +81,21 @@ class DetailsPageState extends State<DetailsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               EditWidget(
-                                contentDialog: EditNameDialogWidget(
+                                contentDialog: EditStringDialogWidget(
                                   onPressSave: (){
                                     return true;
                                   },
-                                  oldName: saint.religiousName ?? saint.name,
+                                  oldString: saint.religiousName ?? saint.name,
                                   title: saint.religiousName != null ? 'Editar nome religioso' : 'Editar nome de nascimento',
                                 ),
                                 child: Text(saint.religiousName ?? saint.name!, style: MyTextStyles.title4)
                               ),
                               EditWidget(
-                                contentDialog: EditNameDialogWidget(
+                                contentDialog: EditStringDialogWidget(
                                   onPressSave: (){
                                     return true;
                                   },
-                                  oldName: saint.religiousName != null ? saint.name : null,
+                                  oldString: saint.religiousName != null ? saint.name : null,
                                   title: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
                                 ),
                                 child: Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido',
@@ -106,10 +106,25 @@ class DetailsPageState extends State<DetailsPage> {
                               const SizedBox(height: 15,),
 
                               EditWidget(
+                                contentDialog: EditStringDialogWidget(
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  oldString: saint.title,
+                                  title: saint.title != null ? 'Editar título' : 'Adicionar título',
+                                ),
                                 child: DoubleTextWidget(title: "Título: ", text: saint.title,)
                               ),
 
                               EditWidget(
+                                  contentDialog: EditStringDialogWidget(
+                                    onPressSave: (){
+                                      return true;
+                                    },
+                                    fieldMaxLines: 5,
+                                    oldString: saint.summary,
+                                    title: saint.summary != null ? 'Editar resumo' : 'Adicionar resumo',
+                                  ),
                                 child: DoubleTextWidget(title: "Resumo: ", text: saint.summary, isHorizontal: false, verticalBetweenDistance: 5,)
                               ),
 

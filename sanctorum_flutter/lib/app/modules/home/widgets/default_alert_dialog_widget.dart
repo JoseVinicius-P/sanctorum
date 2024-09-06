@@ -115,7 +115,7 @@ class _DefaultAlertDialogWidgetState extends State<DefaultAlertDialogWidget> {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15)
+          borderRadius: BorderRadius.circular(10)
       ),
       titlePadding: titlePadding,
       title: title,

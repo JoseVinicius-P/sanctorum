@@ -7,19 +7,20 @@ import 'package:sanctorum_flutter/app/modules/home/widgets/default_alert_dialog_
 import 'package:sanctorum_flutter/app/shared/utilities/validator.dart';
 import 'package:sanctorum_flutter/app/shared/widgets/text_field_widget.dart';
 
-class EditNameDialogWidget extends StatefulWidget {
-  const EditNameDialogWidget({super.key, this.oldName, this.title, required this.onPressSave});
+class EditStringDialogWidget extends StatefulWidget {
+  const EditStringDialogWidget({super.key, this.oldString, this.title, required this.onPressSave, this.fieldMaxLines});
 
-  final String? oldName;
+  final String? oldString;
   final String? title;
   final FutureOr<bool> Function() onPressSave;
+  final int? fieldMaxLines;
 
   @override
-  State<EditNameDialogWidget> createState() => _EditNameDialogWidgetState();
+  State<EditStringDialogWidget> createState() => _EditStringDialogWidgetState();
 }
 
-class _EditNameDialogWidgetState extends State<EditNameDialogWidget> {
-  EditNameStore store = Modular.get();
+class _EditStringDialogWidgetState extends State<EditStringDialogWidget> {
+  EditStringStore store = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +32,26 @@ class _EditNameDialogWidgetState extends State<EditNameDialogWidget> {
             builder: (context, triple) {
               var newName = triple.state as String?;
               String error = triple.error ?? '';
-              return Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: TextFieldWidget(
-                      text: widget.oldName ?? 'Nome',
-                      validator: StringValidator(),
-                      onChanged: (text){
-                        store.updateName(text);
-                      },
-                      error: error.isNotEmpty ? StringValidator().validate(newName) : null,
+              return Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.4
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: TextFieldWidget(
+                        maxLines: widget.fieldMaxLines,
+                        text: widget.oldString ?? 'Nome',
+                        validator: StringValidator(),
+                        onChanged: (text){
+                          store.updateName(text);
+                        },
+                        error: error.isNotEmpty ? StringValidator().validate(newName) : null,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
         ),

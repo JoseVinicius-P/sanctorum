@@ -30,6 +30,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool isUpperCase;
   final bool enableBorder;
   final EdgeInsets padding;
+  final int? maxLines;
 
   const TextFieldWidget({
     super.key,
@@ -54,7 +55,7 @@ class TextFieldWidget extends StatefulWidget {
     bool? isUpperCase,
     this.onTap,
     bool? enableBorder,
-    EdgeInsets? padding,
+    EdgeInsets? padding, this.maxLines,
   }) : selectTextWithTap = selectTextWithTap ?? false,
   isUpperCase = isUpperCase ?? false,
   enableBorder = enableBorder ?? true,
@@ -169,6 +170,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             LengthLimitingTextInputFormatter(widget.maxLength)
           ],
           keyboardType: widget.keyboardType,
+          maxLines: widget.maxLines,
           onChanged: (text){
             removeError();
             text = text.trim();
@@ -182,6 +184,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           onFieldSubmitted: widget.onFieldSubmitted,
           //definindo estilo do texto
           style: MyTextStyles.defaultText.copyWith(color: getColor()),
+          textAlign: TextAlign.justify,
           cursorColor: getColor(),
           //retirando autocorreção de texto
           autocorrect: false,
