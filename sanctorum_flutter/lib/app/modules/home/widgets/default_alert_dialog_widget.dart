@@ -8,7 +8,7 @@ import 'package:sanctorum_flutter/app/shared/utilities/my_icons.dart';
 class DefaultAlertDialogWidget extends StatefulWidget {
   const DefaultAlertDialogWidget({
     super.key,
-    required this.title,
+    this.title,
     required this.content,
     this.onPressedSave,
     String? finishButtonText,
@@ -19,7 +19,7 @@ class DefaultAlertDialogWidget extends StatefulWidget {
     canFullScreen = canFullScreen ?? true,
     contentPadding = contentPadding ?? const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 24);
 
-  final String title;
+  final String? title;
   final Widget content;
   final FutureOr<bool> Function()? onPressedSave;
   final String finishButtonText;
@@ -40,7 +40,8 @@ class _DefaultAlertDialogWidgetState extends State<DefaultAlertDialogWidget> {
     var title = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(child: Text(widget.title, style: MyTextStyles.title5,)),
+        Flexible(child: Text(widget.title ?? '', style: MyTextStyles.title5,)),
+        const SizedBox(width: 10,),
         IconButton(
             onPressed: isLoading ? null : () => Navigator.pop(context),
             icon: Icon(MyIcons.close, color: MyColors.textColor.withOpacity(0.5),)

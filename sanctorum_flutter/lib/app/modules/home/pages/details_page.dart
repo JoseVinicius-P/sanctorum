@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
-import 'package:sanctorum_flutter/app/modules/home/widgets/default_alert_dialog_widget.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_name_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
@@ -83,17 +81,23 @@ class DetailsPageState extends State<DetailsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               EditWidget(
-                                titleDialog: saint.religiousName != null ? 'Editar nome religioso' : 'Editar nome de nascimento',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
+                                contentDialog: EditNameDialogWidget(
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  oldName: saint.religiousName ?? saint.name,
+                                  title: saint.religiousName != null ? 'Editar nome religioso' : 'Editar nome de nascimento',
+                                ),
                                 child: Text(saint.religiousName ?? saint.name!, style: MyTextStyles.title4)
                               ),
                               EditWidget(
-                                titleDialog: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
+                                contentDialog: EditNameDialogWidget(
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  oldName: saint.religiousName != null ? saint.name : null,
+                                  title: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
+                                ),
                                 child: Text(saint.religiousName != null ? 'Nome de batismo: ${saint.name}' : 'Nome religioso desconhecido',
                                   style: MyTextStyles.defaultText.copyWith(color: Colors.grey
                                   ),
@@ -102,34 +106,18 @@ class DetailsPageState extends State<DetailsPage> {
                               const SizedBox(height: 15,),
 
                               EditWidget(
-                                titleDialog: 'Editar título',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
                                 child: DoubleTextWidget(title: "Título: ", text: saint.title,)
                               ),
 
                               EditWidget(
-                                titleDialog: 'Editar Resumo',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
                                 child: DoubleTextWidget(title: "Resumo: ", text: saint.summary, isHorizontal: false, verticalBetweenDistance: 5,)
                               ),
 
                               EditWidget(
-                                titleDialog: 'Editar sexo',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
                                 child: DoubleTextWidget(title: 'Sexo: ', text: saint.gender == 'M' ? 'Masculino' : 'Feminino')
                               ),
 
                               EditWidget(
-                                titleDialog: saint.religiousName != null ? 'Editar nome de batismo' : 'Adicionar nome religioso',
-                                onPressSaveDialog: (){
-                                  return true;
-                                },
                                 child: DoubleTextWidget(title: 'Fomação acadêmica: ', text: saint.academicTrainingToDisplayString,)
                               ),
 
@@ -298,13 +286,11 @@ class DetailsPageState extends State<DetailsPage> {
 class EditWidget extends StatefulWidget {
   const EditWidget({
     super.key,
-    required this.child, this.titleDialog, this.contentDialog, this.onPressSaveDialog,
+    required this.child, this.contentDialog,
   });
 
   final Widget child;
-  final String? titleDialog;
   final Widget? contentDialog;
-  final FutureOr<bool> Function()? onPressSaveDialog;
 
   @override
   State<EditWidget> createState() => _EditWidgetState();
@@ -315,11 +301,7 @@ class _EditWidgetState extends State<EditWidget> {
 
   void showDialogWidget(){
     showDialog(context: context, builder: (context){
-      return DefaultAlertDialogWidget(
-        title: widget.titleDialog ?? '',
-        content: widget.contentDialog!,
-        onPressedSave: widget.onPressSaveDialog,
-      );
+      return widget.contentDialog!;
     });
   }
 
