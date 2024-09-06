@@ -5,6 +5,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_sex_store.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_list_string_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_string_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_sex_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
@@ -141,6 +142,14 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditListStringDialogWidget(
+                                  title: 'Editar formação acadêmica',
+                                  initialList: saint.academicTraining,
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  textFieldsHint: 'Formação acadêmica'
+                                ),
                                 child: DoubleTextWidget(title: 'Fomação acadêmica: ', text: saint.academicTrainingToDisplayString,)
                               ),
 
@@ -181,6 +190,14 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditListStringDialogWidget(
+                                  title: 'Editar orações',
+                                  initialList: saint.prayers,
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  textFieldsHint: 'Oração'
+                                ),
                                 child: DisplayListWidget<String>(
                                   title: 'Orações: ',
                                   list: saint.prayers,
