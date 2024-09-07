@@ -287,7 +287,7 @@ class DetailsPageState extends State<DetailsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    DoubleTextWidget(title: "Família", text: saint.birth != null ? '' : null, distanceBelow: 5,),
+                                    DoubleTextWidget(title: "Família: ", text: saint.family != null ? '' : null, distanceBelow: 5,),
                                     if(saint.family != null)
                                       Padding(
                                         padding: const EdgeInsets.only(left: 10),
@@ -462,7 +462,7 @@ class DoubleTextWidget extends StatelessWidget {
                 style: MyTextStyles.defaultText.copyWith(fontWeight: isTitleBold ? FontWeight.bold : FontWeight.normal),
               ),
               TextSpan(
-                text: text ?? 'Não informado',
+                text: text ?? nullTextMessage,
                 style: MyTextStyles.defaultText.copyWith(color: text != null ? Colors.black : Colors.grey, fontStyle: text != null ? FontStyle.normal : FontStyle.italic),
               ),
             ]

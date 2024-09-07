@@ -46,7 +46,7 @@ class _EditListStringDialogWidgetState extends State<EditListStringDialogWidget>
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index){
-                    if(index <= list.indexOf(list.last)){
+                    if(list.isNotEmpty && index <= list.indexOf(list.last)){
                       return Row(
                         children: [
                           Flexible(
