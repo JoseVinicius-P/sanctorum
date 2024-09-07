@@ -7,55 +7,55 @@ class FindDataInVaticanRepository {
 
   FindDataInVaticanRepository(this.findDataService);
 
-  Future<List<Map<String, String>>?> getLinksOfSaints(String url) async {
-    var response = await findDataService.dataOfSite(url);
-    if (response.statusCode == 200) {
-      return _getLinksInVaticanHtml(responseToDocument(response.body));
-    } else {
-      return null;
+  Future<List<Map<String, String>>?> getSaintLinks(String url) async {
+    final response = await findDataService.dataOfSite(url);
+    if (response.statusCode != 200) {
+      // Em caso de falha na requisição, retorna uma lista vazia
+      return [];
     }
-  }
 
-  dom.Document responseToDocument(String stringHtml) {
     try {
-      var document = htmlparser.parse(stringHtml);
-      return document;
+      final document = _parseHtml(response.body);
+      return _extractSaintLinks(document);
     } catch (e) {
-      throw ('Erro $e');
+      // Em caso de erro durante o processamento, lança uma exceção com a mensagem apropriada
+      throw Exception('Erro ao processar o HTML: $e');
     }
   }
 
-  List<Map<String, String>> _getLinksInVaticanHtml(dom.Document document) {
+  dom.Document _parseHtml(String htmlContent) {
+    return htmlparser.parse(htmlContent);
+  }
+
+  List<Map<String, String>> _extractSaintLinks(dom.Document document) {
     // Seleciona todos os elementos <li> que representam santos
-    var saintElements = document.querySelectorAll('li');
+    final saintsElements = document.querySelectorAll('li');
 
-    List<Map<String, String>> links = [];
+    return saintsElements.map((element) {
+      final saintName = _extractSaintName(element);
+      final photoLink = _extractPhotoLink(element);
+      final biographies = _extractBiographyLinks(element);
 
-    for (var saint in saintElements) {
-      // Pega o nome do santo
-      var saintNameElement = saint.querySelector('b > i');
-      var saintName = saintNameElement?.text.trim() ?? '';
-
-      // Pega o link da foto
-      var photoLinkElement = saint.querySelector('a[href*="photo"]');
-      var photoLink = photoLinkElement?.attributes['href'] ?? '';
-
-      // Pega os links das biografias
-      var biographyLinkElements = saint.querySelectorAll('a[href*="bio"]');
-      String biographyLinks = biographyLinkElements.map((element) {
-        return element.attributes['href'] ?? '';
-      }).join(', ');
-
-      // Adiciona as informações à lista de links
-      links.add({
+      return {
         'name': saintName,
         'photo': photoLink,
-        'biographies': biographyLinks,
-      });
-    }
+        'biographies': biographies,
+      };
+    }).toList();
+  }
 
-    print(links);
+  String _extractSaintName(dom.Element element) {
+    final nameElement = element.querySelector('b > i');
+    return nameElement?.text.trim() ?? 'Nome não disponível';
+  }
 
-    return links;
+  String _extractPhotoLink(dom.Element element) {
+    final photoElement = element.querySelector('a[href*="photo"]');
+    return photoElement?.attributes['href'] ?? 'Link de foto não disponível';
+  }
+
+  String _extractBiographyLinks(dom.Element element) {
+    final biographyElements = element.querySelectorAll('a[href*="bio"]');
+    return biographyElements.map((e) => e.attributes['href'] ?? '').join(', ');
   }
 }
