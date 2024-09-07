@@ -2,6 +2,7 @@ import 'package:sanctorum_flutter/app/modules/home/pages/details_page.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sanctorum_flutter/app/modules/control_panel/control_panel_module.dart';
+import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_list_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_list_string_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_sex_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_string_store.dart';
@@ -16,6 +17,7 @@ class HomeModule extends Module {
     Bind.factory((i) => EditStringStore()),
     Bind.factory((i) => EditSexStore()),
     Bind.factory((i) => EditListStringStore()),
+    Bind.factory((i) => EditListStore()),
     Bind.lazySingleton((i) => HomeStore()),
  ];
 

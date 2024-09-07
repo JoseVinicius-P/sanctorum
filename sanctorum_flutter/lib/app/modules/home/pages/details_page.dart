@@ -5,11 +5,15 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:sanctorum_client/sanctorum_client.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_sex_store.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_list_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_list_string_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_string_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_sex_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/shared/extensions/parse_display_string.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
+import 'package:sanctorum_flutter/app/shared/utilities/my_colors.dart';
+import 'package:sanctorum_flutter/app/shared/utilities/validator.dart';
+import 'package:sanctorum_flutter/app/shared/widgets/text_field_widget.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -158,6 +162,28 @@ class DetailsPageState extends State<DetailsPage> {
                               EditWidget(child: DoubleTextWidget(title: "Data da canônização: ", text: saint.canonizationDateToDisplayString,)),
 
                               EditWidget(
+                                contentDialog: EditListDialogWidget<EcclesiasticalHierarchy>(
+                                  title: "Editar Designações",
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  insertItem: (list){
+                                    if(list != null && list.every((e) => (e.hiearchyName != null && e.hiearchyName!.trim().isNotEmpty))){
+                                      return EcclesiasticalHierarchy();
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                  initialList: saint.ecclesiasticalHierarchy,
+                                  buildItem: (index, ecl, update){
+                                    return EcclesiasticalHierarchyItemWidget(
+                                      title: "Designação ${index+1}",
+                                      ecl: ecl,
+                                      index: index,
+                                      update: update,
+                                    );
+                                  },
+                                ),
                                 child: DisplayListWidget<EcclesiasticalHierarchy>(
                                   title: 'Designações: ',
                                   list: saint.ecclesiasticalHierarchy,
@@ -174,6 +200,28 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditListDialogWidget<Miracle>(
+                                  title: "Editar Milagres",
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  insertItem: (list){
+                                    if(list != null && list.every((e) => (e.name != null && e.name!.trim().isNotEmpty))){
+                                      return Miracle();
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                  initialList: saint.miracles,
+                                  buildItem: (index, miracle, update){
+                                    return MiracleItemWidget(
+                                      title: "Milagre  ${index+1}",
+                                      miracle: miracle,
+                                      index: index,
+                                      update: update
+                                    );
+                                  },
+                                ),
                                 child: DisplayListWidget<Miracle>(
                                   title: 'Milagres: ',
                                   list: saint.miracles,
@@ -208,6 +256,28 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditListDialogWidget<Quotation>(
+                                  title: "Editar Citações",
+                                  onPressSave: (){
+                                    return true;
+                                  },
+                                  insertItem: (list){
+                                    if(list != null && list.every((e) => (e.quote != null && e.quote!.trim().isNotEmpty))){
+                                      return Quotation();
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                  initialList: saint.quotations,
+                                  buildItem: (index, quotation, update){
+                                    return QuotationItemWidget(
+                                        title: "Citação ${index+1}",
+                                        quotation: quotation,
+                                        index: index,
+                                        update: update
+                                    );
+                                  },
+                                ),
                                 child: DisplayListWidget<Quotation>(
                                   title: 'Citações: ',
                                   list: saint.quotations,
@@ -319,6 +389,159 @@ class DetailsPageState extends State<DetailsPage> {
           }
         }
       ),
+    );
+  }
+}
+
+class QuotationItemWidget extends StatelessWidget {
+  const QuotationItemWidget({
+    super.key, required this.title, required this.quotation, required this.index, required this.update,
+  });
+
+  final String title;
+  final Quotation quotation;
+  final int index;
+  final void Function(int, Quotation) update;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: MyTextStyles.defaultText.copyWith(color: MyColors.primaryColor),
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Citação",
+          text: quotation.quote,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            quotation.quote = text;
+            update(index, quotation);
+          },
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Contexto",
+          text: quotation.context,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            quotation.context = text;
+            update(index, quotation);
+          },
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Referência",
+          text: quotation.reference,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            quotation.reference = text;
+            update(index, quotation);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class MiracleItemWidget extends StatelessWidget {
+  const MiracleItemWidget({
+    super.key, required this.title, required this.miracle, required this.index, required this.update,
+  });
+
+  final String title;
+  final Miracle miracle;
+  final int index;
+  final void Function(int, Miracle) update;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: MyTextStyles.defaultText.copyWith(color: MyColors.primaryColor),
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Nome do milagre",
+          text: miracle.name,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            miracle.name = text;
+            update(index, miracle);
+          },
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Detalhes",
+          text: miracle.details,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            miracle.details = text;
+            update(index, miracle);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class EcclesiasticalHierarchyItemWidget extends StatelessWidget {
+  const EcclesiasticalHierarchyItemWidget({
+    super.key, required this.title, required this.ecl, required this.index, required this.update,
+  });
+
+  final String title;
+  final EcclesiasticalHierarchy ecl;
+  final int index;
+  final void Function(int, EcclesiasticalHierarchy) update;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: MyTextStyles.defaultText.copyWith(color: MyColors.primaryColor),
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Nome da designação",
+          text: ecl.hiearchyName,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            ecl.hiearchyName = text;
+            update(index, ecl);
+          },
+        ),
+        const SizedBox(height: 15,),
+        TextFieldWidget(
+          isVerticalDense: true,
+          hint: "Detalhes",
+          text: ecl.details,
+          maxLines: 1,
+          validator: StringValidator(),
+          onChanged: (text){
+            ecl.details = text;
+            update(index, ecl);
+          },
+        ),
+      ],
     );
   }
 }
