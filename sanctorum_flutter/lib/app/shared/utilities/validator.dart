@@ -241,3 +241,70 @@ class PhoneValidator extends StringValidator{
     return error;
   }
 }
+
+class IntValidator extends Validator<String>{
+  @override
+  String? validate(String? value) {
+    String? error = super.validate(value);
+    if(error == null){
+      if(value!.isEmpty){
+        error = 'Este campo deve ser preenchido!';
+      }else{
+        try{
+          var number = int.parse(value);
+        }catch(e){
+          error = 'Deve ser um número';
+        }
+      }
+    }
+    return error;
+  }
+}
+
+class YearValidator extends IntValidator{
+  @override
+  String? validate(String? value) {
+    String? error = super.validate(value);
+    if(error != null){
+      var number = int.parse(value!);
+      if(number < -1850){
+        error = 'Só podem ser usados anos a partir de abraão';
+      }else if(number > DateTime.now().year){
+        error = 'Só podem ser usados anos até o ano atual';
+      }
+    }
+    return error;
+  }
+}
+
+class MonthValidator extends IntValidator{
+  @override
+  String? validate(String? value) {
+    String? error = super.validate(value);
+    if(error != null){
+      var number = int.parse(value!);
+      if(number < 1){
+        error = 'Mês inválido';
+      }else if(number > 12){
+        error = 'Mês inválido';
+      }
+    }
+    return error;
+  }
+}
+
+class DayValidator extends IntValidator{
+  @override
+  String? validate(String? value) {
+    String? error = super.validate(value);
+    if(error != null){
+      var number = int.parse(value!);
+      if(number < 1){
+        error = 'Dia inválido';
+      }else if(number > 31){
+        error = 'Dia inválido';
+      }
+    }
+    return error;
+  }
+}

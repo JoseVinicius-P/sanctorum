@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:sanctorum_flutter/app/shared/utilities/my_colors.dart';
 import 'package:sanctorum_flutter/app/shared/utilities/my_icons.dart';
@@ -12,7 +11,7 @@ class TextFieldWidget extends StatefulWidget {
   final String? text;
   final bool? enable;
   final String? error;
-  final MaskTextInputFormatter? maskFormatter;
+  final TextInputFormatter? maskFormatter;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
   final TextInputType? keyboardType;
@@ -72,6 +71,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   late bool isPassword;
   bool obscureText = true;
   String? error;
+  List<TextInputFormatter> inputFormatter = [];
 
   void initFocus(){
     if(widget.focusNode != null){
