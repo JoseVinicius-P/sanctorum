@@ -7,6 +7,7 @@ import 'package:sanctorum_flutter/app/modules/home/stores/details_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/stores/editors/edit_sex_store.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_birth_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_date_dialog_widget.dart';
+import 'package:sanctorum_flutter/app/modules/home/widgets/edit_death_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_list_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_list_string_dialog_widget.dart';
 import 'package:sanctorum_flutter/app/modules/home/widgets/edit_string_dialog_widget.dart';
@@ -351,6 +352,11 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
 
                               EditWidget(
+                                contentDialog: EditDeathDialogWidget(
+                                  onPressSave: () => true,
+                                  title: 'Editar nascimento',
+                                  oldDeath: saint.death,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
