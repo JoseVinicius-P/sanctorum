@@ -11,8 +11,9 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'dart:typed_data' as _i3;
-import 'package:sanctorum_client/src/protocol/saint.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:sanctorum_client/src/protocol/date.dart' as _i4;
+import 'package:sanctorum_client/src/protocol/saint.dart' as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
 class EndpointChatgpt extends _i1.EndpointRef {
@@ -33,6 +34,131 @@ class EndpointChatgpt extends _i1.EndpointRef {
         'chatgpt',
         'uploadJsonlChatGptOutput',
         {'byteData': byteData},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointEditSaint extends _i1.EndpointRef {
+  EndpointEditSaint(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'editSaint';
+
+  _i2.Future<bool> religiousName(
+    String? newName,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'religiousName',
+        {
+          'newName': newName,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> saintName(
+    String? newName,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'saintName',
+        {
+          'newName': newName,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> title(
+    String? newTitle,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'title',
+        {
+          'newTitle': newTitle,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> summary(
+    String? newSummary,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'summary',
+        {
+          'newSummary': newSummary,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> sex(
+    String? newSex,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'sex',
+        {
+          'newSex': newSex,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> academicTraining(
+    List<String>? newAcademicTraining,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'academicTraining',
+        {
+          'newAcademicTraining': newAcademicTraining,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> prayers(
+    List<String>? newPrayers,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'prayers',
+        {
+          'newPrayers': newPrayers,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> cononizationDate(
+    _i4.Date? newCononizationDate,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'cononizationDate',
+        {
+          'newCononizationDate': newCononizationDate,
+          'id': id,
+        },
+      );
+
+  _i2.Future<bool> beatificationDate(
+    _i4.Date? newBeatificationDate,
+    int id,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'editSaint',
+        'beatificationDate',
+        {
+          'newBeatificationDate': newBeatificationDate,
+          'id': id,
+        },
       );
 }
 
@@ -64,18 +190,18 @@ class EndpointSaint extends _i1.EndpointRef {
   @override
   String get name => 'saint';
 
-  _i2.Future<List<_i4.Saint>> allSaints(int page) =>
-      caller.callServerEndpoint<List<_i4.Saint>>(
+  _i2.Future<List<_i5.Saint>> allSaints(int page) =>
+      caller.callServerEndpoint<List<_i5.Saint>>(
         'saint',
         'allSaints',
         {'page': page},
       );
 
-  _i2.Future<List<_i4.Saint>> search(
+  _i2.Future<List<_i5.Saint>> search(
     String query,
     int page,
   ) =>
-      caller.callServerEndpoint<List<_i4.Saint>>(
+      caller.callServerEndpoint<List<_i5.Saint>>(
         'saint',
         'search',
         {
@@ -84,8 +210,8 @@ class EndpointSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i4.Saint?> detailsById(int id) =>
-      caller.callServerEndpoint<_i4.Saint?>(
+  _i2.Future<_i5.Saint?> detailsById(int id) =>
+      caller.callServerEndpoint<_i5.Saint?>(
         'saint',
         'detailsById',
         {'id': id},
@@ -107,7 +233,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -116,11 +242,14 @@ class Client extends _i1.ServerpodClient {
           onSucceededCall: onSucceededCall,
         ) {
     chatgpt = EndpointChatgpt(this);
+    editSaint = EndpointEditSaint(this);
     findSaint = EndpointFindSaint(this);
     saint = EndpointSaint(this);
   }
 
   late final EndpointChatgpt chatgpt;
+
+  late final EndpointEditSaint editSaint;
 
   late final EndpointFindSaint findSaint;
 
@@ -129,6 +258,7 @@ class Client extends _i1.ServerpodClient {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'chatgpt': chatgpt,
+        'editSaint': editSaint,
         'findSaint': findSaint,
         'saint': saint,
       };
