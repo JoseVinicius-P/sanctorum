@@ -44,11 +44,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
   @override
   String get name => 'editSaint';
 
-  _i2.Future<bool> religiousName(
+  _i2.Future<String?> religiousName(
     String? newName,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<String?>(
         'editSaint',
         'religiousName',
         {
@@ -57,11 +57,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> saintName(
-    String? newName,
+  _i2.Future<String?> saintName(
+    String newName,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<String?>(
         'editSaint',
         'saintName',
         {
@@ -70,11 +70,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> title(
+  _i2.Future<String?> title(
     String? newTitle,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<String?>(
         'editSaint',
         'title',
         {
@@ -83,11 +83,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> summary(
+  _i2.Future<String?> summary(
     String? newSummary,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<String?>(
         'editSaint',
         'summary',
         {
@@ -96,11 +96,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> sex(
+  _i2.Future<String?> sex(
     String? newSex,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<String?>(
         'editSaint',
         'sex',
         {
@@ -109,11 +109,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> academicTraining(
+  _i2.Future<List<String>?> academicTraining(
     List<String>? newAcademicTraining,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<List<String>?>(
         'editSaint',
         'academicTraining',
         {
@@ -122,11 +122,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> prayers(
+  _i2.Future<List<String>?> prayers(
     List<String>? newPrayers,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<List<String>?>(
         'editSaint',
         'prayers',
         {
@@ -135,11 +135,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> cononizationDate(
+  _i2.Future<_i4.Date?> cononizationDate(
     _i4.Date? newCononizationDate,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<_i4.Date?>(
         'editSaint',
         'cononizationDate',
         {
@@ -148,11 +148,11 @@ class EndpointEditSaint extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> beatificationDate(
+  _i2.Future<_i4.Date?> beatificationDate(
     _i4.Date? newBeatificationDate,
     int id,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<_i4.Date?>(
         'editSaint',
         'beatificationDate',
         {

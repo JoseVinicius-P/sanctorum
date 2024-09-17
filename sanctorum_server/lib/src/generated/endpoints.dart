@@ -10,7 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chatgpt_endpoint.dart' as _i2;
-import '../endpoints/edit_saint_endpoint copy.dart' as _i3;
+import '../endpoints/edit_saint_endpoint.dart' as _i3;
 import '../endpoints/find_saint_endpoint.dart' as _i4;
 import '../endpoints/saint_endpoint.dart' as _i5;
 import 'dart:typed_data' as _i6;
@@ -113,8 +113,8 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'newName': _i1.ParameterDescription(
               name: 'newName',
-              type: _i1.getType<String?>(),
-              nullable: true,
+              type: _i1.getType<String>(),
+              nullable: false,
             ),
             'id': _i1.ParameterDescription(
               name: 'id',
