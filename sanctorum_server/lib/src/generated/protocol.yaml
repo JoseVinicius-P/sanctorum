@@ -1,6 +1,16 @@
 chatgpt:
   - generateJsonlFile:
   - uploadJsonlChatGptOutput:
+editSaint:
+  - religiousName:
+  - saintName:
+  - title:
+  - summary:
+  - sex:
+  - academicTraining:
+  - prayers:
+  - cononizationDate:
+  - beatificationDate:
 findSaint:
   - findSaintsWikipedia:
   - updateFullTextsFromSavedWikipediaHtmls:

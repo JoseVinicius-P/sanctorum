@@ -10,9 +10,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chatgpt_endpoint.dart' as _i2;
-import '../endpoints/find_saint_endpoint.dart' as _i3;
-import '../endpoints/saint_endpoint.dart' as _i4;
-import 'dart:typed_data' as _i5;
+import '../endpoints/edit_saint_endpoint copy.dart' as _i3;
+import '../endpoints/find_saint_endpoint.dart' as _i4;
+import '../endpoints/saint_endpoint.dart' as _i5;
+import 'dart:typed_data' as _i6;
+import 'package:sanctorum_server/src/generated/date.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -24,13 +26,19 @@ class Endpoints extends _i1.EndpointDispatch {
           'chatgpt',
           null,
         ),
-      'findSaint': _i3.FindSaintEndpoint()
+      'editSaint': _i3.EditSaintEndpoint()
+        ..initialize(
+          server,
+          'editSaint',
+          null,
+        ),
+      'findSaint': _i4.FindSaintEndpoint()
         ..initialize(
           server,
           'findSaint',
           null,
         ),
-      'saint': _i4.SaintEndpoint()
+      'saint': _i5.SaintEndpoint()
         ..initialize(
           server,
           'saint',
@@ -56,7 +64,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'byteData': _i1.ParameterDescription(
               name: 'byteData',
-              type: _i1.getType<_i5.ByteData>(),
+              type: _i1.getType<_i6.ByteData>(),
               nullable: false,
             )
           },
@@ -72,6 +80,231 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['editSaint'] = _i1.EndpointConnector(
+      name: 'editSaint',
+      endpoint: endpoints['editSaint']!,
+      methodConnectors: {
+        'religiousName': _i1.MethodConnector(
+          name: 'religiousName',
+          params: {
+            'newName': _i1.ParameterDescription(
+              name: 'newName',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).religiousName(
+            session,
+            params['newName'],
+            params['id'],
+          ),
+        ),
+        'saintName': _i1.MethodConnector(
+          name: 'saintName',
+          params: {
+            'newName': _i1.ParameterDescription(
+              name: 'newName',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).saintName(
+            session,
+            params['newName'],
+            params['id'],
+          ),
+        ),
+        'title': _i1.MethodConnector(
+          name: 'title',
+          params: {
+            'newTitle': _i1.ParameterDescription(
+              name: 'newTitle',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).title(
+            session,
+            params['newTitle'],
+            params['id'],
+          ),
+        ),
+        'summary': _i1.MethodConnector(
+          name: 'summary',
+          params: {
+            'newSummary': _i1.ParameterDescription(
+              name: 'newSummary',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).summary(
+            session,
+            params['newSummary'],
+            params['id'],
+          ),
+        ),
+        'sex': _i1.MethodConnector(
+          name: 'sex',
+          params: {
+            'newSex': _i1.ParameterDescription(
+              name: 'newSex',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).sex(
+            session,
+            params['newSex'],
+            params['id'],
+          ),
+        ),
+        'academicTraining': _i1.MethodConnector(
+          name: 'academicTraining',
+          params: {
+            'newAcademicTraining': _i1.ParameterDescription(
+              name: 'newAcademicTraining',
+              type: _i1.getType<List<String>?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint)
+                  .academicTraining(
+            session,
+            params['newAcademicTraining'],
+            params['id'],
+          ),
+        ),
+        'prayers': _i1.MethodConnector(
+          name: 'prayers',
+          params: {
+            'newPrayers': _i1.ParameterDescription(
+              name: 'newPrayers',
+              type: _i1.getType<List<String>?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint).prayers(
+            session,
+            params['newPrayers'],
+            params['id'],
+          ),
+        ),
+        'cononizationDate': _i1.MethodConnector(
+          name: 'cononizationDate',
+          params: {
+            'newCononizationDate': _i1.ParameterDescription(
+              name: 'newCononizationDate',
+              type: _i1.getType<_i7.Date?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint)
+                  .cononizationDate(
+            session,
+            params['newCononizationDate'],
+            params['id'],
+          ),
+        ),
+        'beatificationDate': _i1.MethodConnector(
+          name: 'beatificationDate',
+          params: {
+            'newBeatificationDate': _i1.ParameterDescription(
+              name: 'newBeatificationDate',
+              type: _i1.getType<_i7.Date?>(),
+              nullable: true,
+            ),
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['editSaint'] as _i3.EditSaintEndpoint)
+                  .beatificationDate(
+            session,
+            params['newBeatificationDate'],
+            params['id'],
+          ),
+        ),
+      },
+    );
     connectors['findSaint'] = _i1.EndpointConnector(
       name: 'findSaint',
       endpoint: endpoints['findSaint']!,
@@ -83,7 +316,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['findSaint'] as _i3.FindSaintEndpoint)
+              (endpoints['findSaint'] as _i4.FindSaintEndpoint)
                   .findSaintsWikipedia(session),
         ),
         'updateFullTextsFromSavedWikipediaHtmls': _i1.MethodConnector(
@@ -93,7 +326,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['findSaint'] as _i3.FindSaintEndpoint)
+              (endpoints['findSaint'] as _i4.FindSaintEndpoint)
                   .updateFullTextsFromSavedWikipediaHtmls(session),
         ),
       },
@@ -115,7 +348,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['saint'] as _i4.SaintEndpoint).allSaints(
+              (endpoints['saint'] as _i5.SaintEndpoint).allSaints(
             session,
             params['page'],
           ),
@@ -138,7 +371,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['saint'] as _i4.SaintEndpoint).search(
+              (endpoints['saint'] as _i5.SaintEndpoint).search(
             session,
             params['query'],
             params['page'],
@@ -157,7 +390,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['saint'] as _i4.SaintEndpoint).detailsById(
+              (endpoints['saint'] as _i5.SaintEndpoint).detailsById(
             session,
             params['id'],
           ),
