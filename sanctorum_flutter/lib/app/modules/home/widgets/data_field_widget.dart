@@ -39,7 +39,7 @@ class DataFieldWidget extends StatelessWidget {
                 validator: DayValidator(),
                 maskFormatter: MyMasks.dayMaskFormatter,
                 onChanged: (text){
-                  date?.day = int.parse(text);
+                  date?.day = int.parse(text ?? '0');
                   update(date);
                 },
               ),
@@ -53,7 +53,7 @@ class DataFieldWidget extends StatelessWidget {
                 validator: MonthValidator(),
                 maskFormatter: MyMasks.monthMaskFormatter,
                 onChanged: (text){
-                  date?.month = int.parse(text);
+                  date?.month = int.parse(text ?? '0');
                   update(date);
                 },
               ),
@@ -67,7 +67,7 @@ class DataFieldWidget extends StatelessWidget {
                 validator: YearValidator(),
                 maskFormatter: MyMasks.yearMaskFormatter,
                 onChanged: (text){
-                  date?.year = int.parse(text);
+                  date?.year = int.parse(text ?? '0');
                   update(date);
                 },
               ),
