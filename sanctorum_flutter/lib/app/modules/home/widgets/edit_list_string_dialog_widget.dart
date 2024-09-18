@@ -57,9 +57,8 @@ class _EditListStringDialogWidgetState extends State<EditListStringDialogWidget>
                               text: list[index],
                               validator: StringValidator(),
                               onChanged: (text){
-                                if(text != null){
-                                  store.updateItem(index, text);
-                                }
+                                text ??= '';
+                                store.updateItem(index, text);
                               },
                               error: error.isNotEmpty ? StringValidator().validate(list[index]) : null,
                             ),
