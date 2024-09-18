@@ -13,7 +13,7 @@ class EditListStringDialogWidget extends StatefulWidget {
   final List<String>? initialList;
   final String? title;
   final String textFieldsHint;
-  final FutureOr<bool> Function() onPressSave;
+  final FutureOr<bool> Function(List<String>?) onPressSave;
   final int? fieldMaxLines;
 
   @override
@@ -57,7 +57,9 @@ class _EditListStringDialogWidgetState extends State<EditListStringDialogWidget>
                               text: list[index],
                               validator: StringValidator(),
                               onChanged: (text){
-                                store.updateItem(index, text);
+                                if(text != null){
+                                  store.updateItem(index, text);
+                                }
                               },
                               error: error.isNotEmpty ? StringValidator().validate(list[index]) : null,
                             ),
@@ -124,7 +126,7 @@ class _EditListStringDialogWidgetState extends State<EditListStringDialogWidget>
     return DefaultAlertDialogWidget(
       title: widget.title,
       content: content,
-      onPressedSave: widget.onPressSave,
+      onPressedSave: () => widget.onPressSave(store.state),
     );
   }
 }

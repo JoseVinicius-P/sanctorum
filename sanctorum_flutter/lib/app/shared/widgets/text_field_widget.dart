@@ -17,7 +17,7 @@ class TextFieldWidget extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final TextEditingController? controller;
-  final Function(String)? onChanged;
+  final Function(String?)? onChanged;
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
@@ -129,13 +129,13 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   @override
   void didUpdateWidget(covariant TextFieldWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
     if (widget.text != oldWidget.text && widget.text != text) {
       controller.text = widget.text ?? '';
       setState(() {
         text = widget.text ?? '';
       });
     }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -177,7 +177,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             setState(() {
               this.text = text;
             });
-            widget.onChanged?.call(text);
+            widget.onChanged?.call(text.isEmpty ? null : text);
           },
           obscureText: obscureText,
           focusNode: _focusNode,

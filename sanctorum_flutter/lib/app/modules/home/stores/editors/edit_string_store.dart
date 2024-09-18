@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
-class EditStringStore extends Store<String?> {
+class EditStringStore extends Store<String> {
 
-  EditStringStore() : super(null);
+  EditStringStore() : super('');
 
-  void updateString(String? newString) async {
+  void updateString(String? newString){
+    newString ??= '';
     update(newString);
   }
 

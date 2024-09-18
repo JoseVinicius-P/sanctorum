@@ -12,7 +12,7 @@ class EditStringDialogWidget extends StatefulWidget {
 
   final String? oldString;
   final String? title;
-  final FutureOr<bool> Function() onPressSave;
+  final FutureOr<bool> Function(String?) onPressSave;
   final int? fieldMaxLines;
 
   @override
@@ -52,7 +52,9 @@ class _EditStringDialogWidgetState extends State<EditStringDialogWidget> {
                         text: newName,
                         validator: StringValidator(),
                         onChanged: (text){
+                          debugPrint("Parametro: $text");
                           store.updateString(text);
+                          debugPrint("Store: ${store.state}");
                         },
                         error: error.isNotEmpty ? StringValidator().validate(newName) : null,
                       ),
@@ -67,7 +69,7 @@ class _EditStringDialogWidgetState extends State<EditStringDialogWidget> {
     return DefaultAlertDialogWidget(
       title: widget.title,
       content: content,
-      onPressedSave: widget.onPressSave,
+      onPressedSave: () => widget.onPressSave(store.state.isEmpty ? null : store.state),
     );
   }
 }

@@ -11,4 +11,8 @@ class DetailsStore extends Store<Saint?> {
     update(saint);
   }
 
+  void updateSaint(Saint saint){
+    update(saint, force: true);
+  }
+
 }

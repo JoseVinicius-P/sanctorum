@@ -18,6 +18,7 @@ import 'package:sanctorum_flutter/app/shared/my_text_styles.dart';
 import 'package:sanctorum_flutter/app/shared/utilities/my_colors.dart';
 import 'package:sanctorum_flutter/app/shared/utilities/validator.dart';
 import 'package:sanctorum_flutter/app/shared/widgets/text_field_widget.dart';
+import 'package:sanctorum_flutter/main.dart';
 import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -93,7 +94,15 @@ class DetailsPageState extends State<DetailsPage> {
                             children: [
                               EditWidget(
                                 contentDialog: EditStringDialogWidget(
-                                  onPressSave: (){
+                                  onPressSave: (name) async {
+                                    if(saint.religiousName != null){
+                                      saint.religiousName = await client.editSaint.religiousName(name, saint.id!);
+                                    }else{
+                                      if(name != null && name.isNotEmpty){
+                                        saint.name = await client.editSaint.saintName(name, saint.id!);
+                                      }
+                                    }
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   oldString: saint.religiousName ?? saint.name,
@@ -103,7 +112,15 @@ class DetailsPageState extends State<DetailsPage> {
                               ),
                               EditWidget(
                                 contentDialog: EditStringDialogWidget(
-                                  onPressSave: (){
+                                  onPressSave: (name) async {
+                                    if(saint.religiousName != null){
+                                      if(name != null && name.isNotEmpty){
+                                        saint.name = await client.editSaint.saintName(name, saint.id!);
+                                      }
+                                    }else{
+                                      saint.religiousName = await client.editSaint.religiousName(name, saint.id!);
+                                    }
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   oldString: saint.religiousName != null ? saint.name : null,
@@ -118,7 +135,9 @@ class DetailsPageState extends State<DetailsPage> {
 
                               EditWidget(
                                 contentDialog: EditStringDialogWidget(
-                                  onPressSave: (){
+                                  onPressSave: (title) async {
+                                    saint.title = await client.editSaint.title(title, saint.id!);
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   oldString: saint.title,
@@ -129,7 +148,9 @@ class DetailsPageState extends State<DetailsPage> {
 
                               EditWidget(
                                   contentDialog: EditStringDialogWidget(
-                                    onPressSave: (){
+                                    onPressSave: (summary) async {
+                                      saint.summary = await client.editSaint.summary(summary, saint.id!);
+                                      detailsStore.updateSaint(saint);
                                       return true;
                                     },
                                     fieldMaxLines: 5,
@@ -142,7 +163,9 @@ class DetailsPageState extends State<DetailsPage> {
                               EditWidget(
                                 contentDialog: EditSexDialogWidget(
                                   oldSex: Sex.values.singleWhere((e) => e.name == saint.gender, orElse: () => Sex.M),
-                                  onPressSave: (){
+                                  onPressSave: (sex) async {
+                                    saint.gender =  await client.editSaint.sex(sex?.name, saint.id!);
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   }
                                 ),
@@ -153,7 +176,9 @@ class DetailsPageState extends State<DetailsPage> {
                                 contentDialog: EditListStringDialogWidget(
                                   title: 'Editar formação acadêmica',
                                   initialList: saint.academicTraining,
-                                  onPressSave: (){
+                                  onPressSave: (list) async{
+                                    saint.academicTraining = await client.editSaint.academicTraining(list, saint.id!);
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   textFieldsHint: 'Formação acadêmica'
@@ -265,7 +290,9 @@ class DetailsPageState extends State<DetailsPage> {
                                 contentDialog: EditListStringDialogWidget(
                                   title: 'Editar orações',
                                   initialList: saint.prayers,
-                                  onPressSave: (){
+                                  onPressSave: (list) async {
+                                    saint.prayers = await client.editSaint.prayers(list, saint.id!);
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   textFieldsHint: 'Oração'

@@ -70,7 +70,7 @@ class _EditFamilyDialogWidgetState extends State<EditFamilyDialogWidget> {
                     text: newFamily?.numberOfSiblings.toString(),
                     validator: StringValidator(),
                     onChanged: (text){
-                      newFamily?.numberOfSiblings = int.parse(text);
+                      newFamily?.numberOfSiblings = int.parse(text ?? '0');
                       store.updateFamily(newFamily);
                     },
                   ),

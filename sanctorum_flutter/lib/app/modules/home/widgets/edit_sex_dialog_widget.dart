@@ -10,7 +10,7 @@ class EditSexDialogWidget extends StatefulWidget {
   const EditSexDialogWidget({super.key, required this.onPressSave, this.oldSex});
 
   final Sex? oldSex;
-  final FutureOr<bool> Function() onPressSave;
+  final FutureOr<bool> Function(Sex?) onPressSave;
 
   @override
   State<EditSexDialogWidget> createState() => _EditSexDialogWidgetState();
@@ -57,7 +57,7 @@ class _EditSexDialogWidgetState extends State<EditSexDialogWidget> {
     return DefaultAlertDialogWidget(
       title: 'Editar sexo',
       content: content,
-      onPressedSave: widget.onPressSave,
+      onPressedSave: () => widget.onPressSave(store.state),
     );
   }
 }
