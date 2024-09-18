@@ -6,7 +6,19 @@ class EditDateStore extends Store<Date?> {
   EditDateStore() : super(null);
 
   void updateDate(Date? newDate) async {
-    update(newDate);
+    update(verifyDate(newDate));
+  }
+  
+  Date? verifyDate(Date? date){
+    if(date != null){
+      if(date.year == 0 && date.month == 0 && date.day == 0){
+        return null;
+      }else{
+        return date;
+      }
+    }
+    
+    return date;
   }
 
 }

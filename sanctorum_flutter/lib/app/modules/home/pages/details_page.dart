@@ -189,7 +189,9 @@ class DetailsPageState extends State<DetailsPage> {
                               EditWidget(
                                 contentDialog: EditDateDialogWidget(
                                   title: 'Editar data da beatificação',
-                                  onPressSave: (){
+                                  onPressSave: (date) async {
+                                    saint.beatificationDate = await client.editSaint.beatificationDate(date, saint.id!);
+                                    detailsStore.updateSaint(saint);
                                     return true;
                                   },
                                   oldDate: saint.beatificationDate,
@@ -201,7 +203,9 @@ class DetailsPageState extends State<DetailsPage> {
                               EditWidget(
                                   contentDialog: EditDateDialogWidget(
                                     title: 'Editar data da canônização',
-                                    onPressSave: (){
+                                    onPressSave: (date) async {
+                                      saint.cononizationDate = await client.editSaint.cononizationDate(date, saint.id!);
+                                      detailsStore.updateSaint(saint);
                                       return true;
                                     },
                                     oldDate: saint.cononizationDate,

@@ -12,7 +12,7 @@ class EditDateDialogWidget extends StatefulWidget {
 
   final Date? oldDate;
   final String? title;
-  final FutureOr<bool> Function() onPressSave;
+  final FutureOr<bool> Function(Date?) onPressSave;
 
   @override
   State<EditDateDialogWidget> createState() => _EditDateDialogWidgetState();
@@ -50,7 +50,7 @@ class _EditDateDialogWidgetState extends State<EditDateDialogWidget> {
     return DefaultAlertDialogWidget(
       title: widget.title,
       content: content,
-      onPressedSave: widget.onPressSave,
+      onPressedSave: () => widget.onPressSave(store.state),
     );
   }
 }
