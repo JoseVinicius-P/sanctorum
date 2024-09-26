@@ -31,25 +31,30 @@ class _PeriodWidgetState extends State<PeriodWidget> {
   }
 
   void updateFirstDate(Date? newDate) async {
-    if(newDate != null){
-      if(period != null){
-        period!.first = newDate;
-      }else{
-        period = [newDate];
+    debugPrint("Perido: $isPeriod, Periodo tem: ${period.toString()}");
+    setState(() {
+      if(newDate != null){
+        if(period != null && period!.isNotEmpty){
+          period!.first = newDate;
+        }else{
+          period = [newDate];
+        }
       }
-    }
+    });
   }
 
   void updateLastDate(Date? newDate) async {
-    if(newDate != null){
-      if(period != null){
-        period!.add(newDate);
+    setState(() {
+      if(newDate != null){
+        if(period != null){
+          period!.add(newDate);
+        }
+      }else {
+        if ((period?.length ?? 0) > 1) {
+          period?.removeLast();
+        }
       }
-    }else {
-      if ((period?.length ?? 0) > 1) {
-        period?.removeLast();
-      }
-    }
+    });
   }
 
   @override
@@ -75,13 +80,13 @@ class _PeriodWidgetState extends State<PeriodWidget> {
             }
         ),
         const SizedBox(height: 5,),
-        DataFieldWidget(title: isPeriod ? 'Data inicial' : 'Data', date: period?.first, update: (date){
+        DataFieldWidget(title: isPeriod ? 'Data inicial' : 'Data', date: period != null && period!.isNotEmpty ? period!.first : null, update: (date){
           updateFirstDate(date);
           widget.updatePeriod(period);
         }),
         const SizedBox(height: 5,),
         if(isPeriod && period != null && period!.isNotEmpty)
-          DataFieldWidget(title: 'Data final', date: period?.last, update: (date){
+          DataFieldWidget(title: 'Data final', date: period != null && period!.isNotEmpty ? period!.last : null, update: (date){
             updateLastDate(date);
             widget.updatePeriod(period);
           }),
